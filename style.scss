@@ -1,1 +1,87 @@
 @import "./common/normalize";
+
+html {
+  background-color: blueviolet;
+}
+
+body {
+  max-width: 1920px;
+
+  .container {
+    margin: 150px auto 150px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  textarea {
+    width: 900px;
+    height: 150px;
+    margin: 0 auto 50px;
+  }
+
+  .body-keyboard {
+    width: 858px;
+    height: 290px;
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+    .keyboard__row {
+      display: flex;
+      margin: 1px 1px;
+    }
+
+    .keyboard__key {
+      min-width: 50px;
+      height: 50px;
+      background-color: cornsilk;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 3px;
+      cursor: pointer;
+    }
+
+    .tab {
+      width: 66px;
+      height: 50px;
+      background-color: cornflowerblue;
+    }
+    .capslock,
+    .backspace {
+      width: 110px;
+      width: 122px;
+      background-color: cornflowerblue;
+    }
+    .enter {
+      width: 109px;
+      background-color: cornflowerblue;
+    }
+    .right-shift {
+      width: 106px;
+      background-color: cornflowerblue;
+    }
+    .left-shift {
+      width: 122px;
+      background-color: cornflowerblue;
+    }
+    .space {
+      width: 402px;
+    }
+    .del {
+      background-color: cornflowerblue;
+    }
+    .left-ctrl,
+    .switch-lang,
+    .left-alt,
+    .right-alt,
+    .right-ctrl,
+    .arrow-up,
+    .arrow-down,
+    .arrow-left,
+    .arrow-right {
+      background-color: cornflowerblue;
+    }
+  }
+}
