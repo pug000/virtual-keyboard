@@ -1,4 +1,6 @@
 @import "./common/normalize";
+@import "./common/fonts";
+@import "./common/extends";
 
 html {
   background-color: blueviolet;
@@ -19,6 +21,20 @@ body {
     margin: 0 auto 50px;
   }
 
+  .keyboard__key {
+    min-width: 50px;
+    height: 50px;
+    background-color: cornsilk;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 18px;
+    @extend %ff-Heebo-Regular;
+  }
+
   .body-keyboard {
     background-color: aqua;
     margin: 0 auto;
@@ -28,18 +44,6 @@ body {
     .keyboard__row {
       display: flex;
       margin: 1px 1px;
-    }
-
-    .keyboard__key {
-      min-width: 50px;
-      height: 50px;
-      background-color: cornsilk;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      margin: 2px;
-      cursor: pointer;
-      user-select: none;
     }
 
     .Tab {
@@ -67,6 +71,7 @@ body {
 
     .functional {
       background-color: cornflowerblue;
+      @extend %ff-Bebas-Neue-Regular;
     }
   }
 }
