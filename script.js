@@ -1,6 +1,5 @@
-const container = document.createElement('div');
-const textarea = document.createElement('textarea');
-container.classList.add('container');
-textarea.setAttribute('id', 'textarea');
-container.appendChild(textarea);
-document.body.appendChild(container);
+import Container from './js/Container.js';
+import keyButtons from './keyButtons.js';
+
+const container = new Container(keyButtons);
+document.body.appendChild(container.init());

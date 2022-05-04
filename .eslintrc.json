@@ -9,6 +9,10 @@
     "sourceType": "module"
   },
   "rules": {
-    "import/extensions": 0
+    "import/extensions": 0,
+    "linebreak-style": [
+      "error",
+      "windows"
+    ]
   }
 }

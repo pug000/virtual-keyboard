@@ -20,12 +20,10 @@ body {
   }
 
   .body-keyboard {
-    width: 858px;
-    height: 290px;
     background-color: aqua;
-    display: flex;
-    flex-direction: column;
     margin: 0 auto;
+    padding: 3px;
+    user-select: none;
 
     .keyboard__row {
       display: flex;
@@ -36,51 +34,38 @@ body {
       min-width: 50px;
       height: 50px;
       background-color: cornsilk;
-      display: flex;
+      display: inline-flex;
       justify-content: center;
       align-items: center;
-      margin: 3px;
+      margin: 2px;
       cursor: pointer;
+      user-select: none;
     }
 
-    .tab {
-      width: 66px;
+    .Tab {
+      width: 75px;
       height: 50px;
-      background-color: cornflowerblue;
     }
-    .capslock,
-    .backspace {
-      width: 110px;
-      width: 122px;
-      background-color: cornflowerblue;
+    .CapsLock {
+      width: 100px;
     }
-    .enter {
-      width: 109px;
-      background-color: cornflowerblue;
+    .Backspace {
+      width: 129px;
     }
-    .right-shift {
-      width: 106px;
-      background-color: cornflowerblue;
+    .Enter {
+      width: 133px;
     }
-    .left-shift {
-      width: 122px;
-      background-color: cornflowerblue;
+    .ShiftRight {
+      width: 104px;
     }
-    .space {
-      width: 402px;
+    .ShiftLeft {
+      width: 129px;
     }
-    .del {
-      background-color: cornflowerblue;
+    .Space {
+      width: 399px;
     }
-    .left-ctrl,
-    .switch-lang,
-    .left-alt,
-    .right-alt,
-    .right-ctrl,
-    .arrow-up,
-    .arrow-down,
-    .arrow-left,
-    .arrow-right {
+
+    .functional {
       background-color: cornflowerblue;
     }
   }
