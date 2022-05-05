@@ -10,12 +10,12 @@ export default class Keyboard {
   }
 
   initKeyboard() {
-    this.keyboardBody.appendChild(this.initKeys());
+    this.keyboardBody.appendChild(this.createKeys());
     this.keys = this.keyboardBody.children;
     return this.keyboardBody;
   }
 
-  initKeys() {
+  createKeys() {
     const fragment = document.createDocumentFragment();
     this.keyButtons.forEach((elem) => {
       this.keyElement = document.createElement('div');
@@ -50,21 +50,28 @@ export default class Keyboard {
         this.setCapsLock(elem);
         break;
 
+      case 'ControlLeft':
+        this.setControl(elem);
+        break;
+
+      case 'ControlRight':
+        this.setControl(elem);
+        break;
+
+      case 'AltLeft':
+        this.setAlt(elem);
+        break;
+
+      case 'AltRight':
+        this.setAlt(elem);
+        break;
+
+      case 'Space':
+        this.setSpace(elem);
+        break;
+
       default:
-        this.keyElement.textContent = elem.key.en;
-
-        this.keyElement.addEventListener('mousedown', (e) => {
-          e.target.classList.add('active');
-        });
-
-        this.keyElement.addEventListener('mouseup', (e) => {
-          e.target.classList.remove('active');
-          if (this.capsLock) {
-            this.textarea.value += elem.key.en.toUpperCase();
-          } else {
-            this.textarea.value += elem.key.en.toLowerCase();
-          }
-        });
+        this.setDefaultKeys(elem);
 
         break;
     }
@@ -146,6 +153,67 @@ export default class Keyboard {
     });
 
     return this.keyElement;
+  }
+
+  setControl(elem) {
+    this.keyElement.textContent = elem.key.en;
+
+    this.keyElement.addEventListener('mousedown', (e) => {
+      e.target.classList.add('active');
+    });
+
+    this.keyElement.addEventListener('mouseup', (e) => {
+      e.target.classList.remove('active');
+    });
+
+    return this.keyElement;
+  }
+
+  setAlt(elem) {
+    this.keyElement.textContent = elem.key.en;
+
+    this.keyElement.addEventListener('mousedown', (e) => {
+      e.target.classList.add('active');
+    });
+
+    this.keyElement.addEventListener('mouseup', (e) => {
+      e.target.classList.remove('active');
+    });
+
+    return this.keyElement;
+  }
+
+  setSpace(elem) {
+    this.keyElement.textContent = elem.key.en;
+
+    this.keyElement.addEventListener('mousedown', (e) => {
+      e.target.classList.add('active');
+    });
+
+    this.keyElement.addEventListener('mouseup', (e) => {
+      e.target.classList.remove('active');
+      this.textarea.value += ' ';
+      this.textarea.textContent = this.textarea.value;
+    });
+
+    return this.keyElement;
+  }
+
+  setDefaultKeys(elem) {
+    this.keyElement.textContent = elem.key.en;
+
+    this.keyElement.addEventListener('mousedown', (e) => {
+      e.target.classList.add('active');
+    });
+
+    this.keyElement.addEventListener('mouseup', (e) => {
+      e.target.classList.remove('active');
+      if (this.capsLock) {
+        this.textarea.value += elem.key.en.toUpperCase();
+      } else {
+        this.textarea.value += elem.key.en.toLowerCase();
+      }
+    });
   }
 
   toggleCapsLock() {
