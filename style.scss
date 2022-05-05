@@ -19,12 +19,13 @@ body {
     width: 900px;
     height: 150px;
     margin: 0 auto 50px;
+    overflow: auto;
   }
 
   .keyboard__key {
     min-width: 50px;
     height: 50px;
-    background-color: cornsilk;
+    background-color: mintcream;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -32,7 +33,18 @@ body {
     cursor: pointer;
     user-select: none;
     font-size: 18px;
+    border-radius: 3px;
+    transition: 0.2s;
     @extend %ff-Heebo-Regular;
+
+    &:hover {
+      background-color: rgb(192, 13, 228);
+    }
+
+    &.active {
+      border-radius: 30%;
+      background-color: rgb(192, 13, 228);
+    }
   }
 
   .body-keyboard {
@@ -40,11 +52,7 @@ body {
     margin: 0 auto;
     padding: 3px;
     user-select: none;
-
-    .keyboard__row {
-      display: flex;
-      margin: 1px 1px;
-    }
+    width: 835px;
 
     .Tab {
       width: 75px;
@@ -72,6 +80,14 @@ body {
     .functional {
       background-color: cornflowerblue;
       @extend %ff-Bebas-Neue-Regular;
+
+      &:hover {
+        background-color: rgb(192, 13, 228);
+      }
+      &.active {
+        border-radius: 7px;
+        background-color: rgb(192, 13, 228);
+      }
     }
   }
 }

@@ -1,29 +1,109 @@
 export default class Buttons {
-  constructor() {
-    this.lineBreak = ['Backspace', 'Delete', 'Enter', 'ShiftRight', 'ControlRight'];
+  constructor(keysClass, keysEng, keysRus, textarea) {
+    this.keyElement = document.createElement('div');
+    this.br = document.createElement('br');
     this.keyFunc = ['Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'Switch-Lang', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
+    this.keysClass = keysClass;
+    this.keysEng = keysEng;
+    this.keysRus = keysRus;
+    this.textarea = textarea;
   }
 
-  initKeys(item) {
+  initKeys() {
     const fragment = document.createDocumentFragment();
-    Object.entries(item).forEach((elem) => {
-      const keysClass = elem[0];
-      const keysEng = elem[1].en;
-      const keysRus = elem[1].ru;
-      const keyElement = document.createElement('div');
-      const br = document.createElement('br');
-      keyElement.classList.add('keyboard__key');
-      keyElement.classList.add(`${keysClass}`);
-      keyElement.textContent = keysEng;
-      // keyElement.textContent = keysRus;
-      fragment.appendChild(keyElement);
-      if (this.keyFunc.indexOf(keysClass) !== -1) {
-        keyElement.classList.add('functional');
-      }
-      if (this.lineBreak.indexOf(keysClass) !== -1) {
-        fragment.appendChild(br);
-      }
-    });
+    this.keyElement.className = 'keyboard__key';
+    this.keyElement.classList.add(`${this.keysClass}`);
+    fragment.appendChild(this.keyElement);
+    if (this.keyFunc.indexOf(this.keysClass) !== -1) {
+      this.keyElement.classList.add('functional');
+    }
+    this.setKeyButtons();
     return fragment;
+  }
+
+  setKeyButtons() {
+    switch (this.keysClass) {
+      case 'Backspace':
+        this.setBackspace();
+        break;
+
+      case 'Tab':
+        this.setTab();
+        break;
+
+      case 'Delete':
+        this.setDelete();
+        break;
+
+      case 'Enter':
+        this.setEnter();
+        break;
+
+      default:
+        this.keyElement.textContent = this.keysEng.toLowerCase();
+        this.keyElement.addEventListener('mousedown', () => {
+          this.keyElement.classList.add('active');
+        });
+        this.keyElement.addEventListener('mouseup', () => {
+          this.keyElement.classList.remove('active');
+          this.textarea.value += this.keysEng.toLowerCase();
+          this.textarea.textContent = this.textarea.value;
+        });
+        break;
+    }
+  }
+
+  setBackspace() {
+    this.keyElement.textContent = this.keysEng;
+    this.keyElement.addEventListener('mousedown', () => {
+      this.keyElement.classList.add('active');
+    });
+    this.keyElement.addEventListener('mouseup', () => {
+      this.keyElement.classList.remove('active');
+      this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
+      this.textarea.textContent = this.textarea.value;
+    });
+    return this.keyElement;
+  }
+
+  setTab() {
+    this.keyElement.textContent = this.keysEng;
+    this.keyElement.addEventListener('mousedown', () => {
+      this.keyElement.classList.add('active');
+    });
+    this.keyElement.addEventListener('mouseup', () => {
+      this.keyElement.classList.remove('active');
+      this.textarea.value += '  ';
+      this.textarea.textContent = this.textarea.value;
+    });
+    return this.keyElement;
+  }
+
+  setDelete() {
+    this.keyElement.textContent = this.keysEng;
+
+    this.keyElement.addEventListener('mousedown', () => {
+      this.keyElement.classList.add('active');
+    });
+    this.keyElement.addEventListener('mouseup', () => {
+      this.keyElement.classList.remove('active');
+      this.textarea.value = this.textarea.value.substring(1);
+      this.textarea.textContent = this.textarea.value;
+    });
+    return this.keyElement;
+  }
+
+  setEnter() {
+    this.keyElement.textContent = this.keysEng;
+
+    this.keyElement.addEventListener('mousedown', () => {
+      this.keyElement.classList.add('active');
+    });
+    this.keyElement.addEventListener('mouseup', () => {
+      this.keyElement.classList.remove('active');
+      this.textarea.value += '\n';
+      this.textarea.textContent = this.textarea.value;
+    });
+    return this.keyElement;
   }
 }
