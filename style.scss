@@ -76,8 +76,23 @@ body {
     .Space {
       width: 399px;
     }
-
-    .functional {
+    .Delete,
+    .Tab,
+    .CapsLock,
+    .Backspace,
+    .Enter,
+    .ShiftRight,
+    .ShiftLeft,
+    .Space,
+    .ControlLeft,
+    .ControlRight,
+    .AltLeft,
+    .AltRight,
+    .Switch-Lang,
+    .ArrowUp,
+    .ArrowLeft,
+    .ArrowDown,
+    .ArrowRight {
       background-color: cornflowerblue;
       @extend %ff-Bebas-Neue-Regular;
 
