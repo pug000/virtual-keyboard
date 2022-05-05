@@ -1,20 +1,22 @@
+// import Keyboard from "./Keyboard";
+
 export default class Buttons {
-  constructor(keysClass, keysEng, keysRus, textarea) {
+  constructor(parent, keyButtons, textarea) {
     this.keyElement = document.createElement('div');
     this.br = document.createElement('br');
     this.keyFunc = ['Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'Switch-Lang', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
-    this.keysClass = keysClass;
-    this.keysEng = keysEng;
-    this.keysRus = keysRus;
+    this.keyButtons = keyButtons;
     this.textarea = textarea;
+    this.capsLock = false;
+    this.keys = parent.children;
   }
 
   initKeys() {
     const fragment = document.createDocumentFragment();
     this.keyElement.className = 'keyboard__key';
-    this.keyElement.classList.add(`${this.keysClass}`);
+    this.keyElement.classList.add(`${this.keyButtons.code}`);
     fragment.appendChild(this.keyElement);
-    if (this.keyFunc.indexOf(this.keysClass) !== -1) {
+    if (this.keyFunc.indexOf(this.keyButtons.code) !== -1) {
       this.keyElement.classList.add('functional');
     }
     this.setKeyButtons();
@@ -22,7 +24,7 @@ export default class Buttons {
   }
 
   setKeyButtons() {
-    switch (this.keysClass) {
+    switch (this.keyButtons.code) {
       case 'Backspace':
         this.setBackspace();
         break;
@@ -39,22 +41,34 @@ export default class Buttons {
         this.setEnter();
         break;
 
+      case 'CapsLock':
+        this.setCapsLock();
+        break;
+
       default:
-        this.keyElement.textContent = this.keysEng.toLowerCase();
+        this.keyElement.textContent = this.keyButtons.key.en;
+
         this.keyElement.addEventListener('mousedown', () => {
           this.keyElement.classList.add('active');
         });
+
         this.keyElement.addEventListener('mouseup', () => {
           this.keyElement.classList.remove('active');
-          this.textarea.value += this.keysEng.toLowerCase();
+
+          if (!this.capsLock === false) {
+            this.textarea.value += this.keyButtons.key.en.toLowerCase();
+          } else {
+            this.textarea.value += this.keyButtons.key.en.toUpperCase();
+          }
           this.textarea.textContent = this.textarea.value;
         });
+
         break;
     }
   }
 
   setBackspace() {
-    this.keyElement.textContent = this.keysEng;
+    this.keyElement.textContent = this.keyButtons.key.en;
     this.keyElement.addEventListener('mousedown', () => {
       this.keyElement.classList.add('active');
     });
@@ -67,7 +81,7 @@ export default class Buttons {
   }
 
   setTab() {
-    this.keyElement.textContent = this.keysEng;
+    this.keyElement.textContent = this.keyButtons.key.en;
     this.keyElement.addEventListener('mousedown', () => {
       this.keyElement.classList.add('active');
     });
@@ -80,7 +94,7 @@ export default class Buttons {
   }
 
   setDelete() {
-    this.keyElement.textContent = this.keysEng;
+    this.keyElement.textContent = this.keyButtons.key.en;
 
     this.keyElement.addEventListener('mousedown', () => {
       this.keyElement.classList.add('active');
@@ -94,7 +108,7 @@ export default class Buttons {
   }
 
   setEnter() {
-    this.keyElement.textContent = this.keysEng;
+    this.keyElement.textContent = this.keyButtons.key.en;
 
     this.keyElement.addEventListener('mousedown', () => {
       this.keyElement.classList.add('active');
@@ -105,5 +119,31 @@ export default class Buttons {
       this.textarea.textContent = this.textarea.value;
     });
     return this.keyElement;
+  }
+
+  setCapsLock() {
+    this.keyElement.textContent = this.keyButtons.key.en;
+    this.keyElement.addEventListener('mousedown', () => {
+      this.toggleCapsLock();
+      this.keyElement.classList.add('active');
+    });
+    this.keyElement.addEventListener('mouseup', () => {
+      this.keyElement.classList.remove('active');
+    });
+    return this.keyElement;
+  }
+
+  toggleCapsLock() {
+    this.capsLock = !this.capsLock;
+
+    for (let i = 0; i < this.keys.length; i += 1) {
+      if (this.keys[i].childElementCount === 0) {
+        if (this.capsLock) {
+          this.keys[i].textContent = this.keys[i].textContent.toUpperCase();
+        } else {
+          this.keys[i].textContent = this.keys[i].textContent.toLowerCase();
+        }
+      }
+    }
   }
 }

@@ -1,262 +1,68 @@
 const keyButtons = [
-  {
-    Backquote: {
-      en: '`',
-      ru: 'ё',
-    },
-    Digit1: {
-      en: '1',
-      ru: '1',
-    },
-    Digit2: {
-      en: '2',
-      ru: '2',
-    },
-    Digit3: {
-      en: '3',
-      ru: '3',
-    },
-    Digit4: {
-      en: '4',
-      ru: '4',
-    },
-    Digit5: {
-      en: '5',
-      ru: '5',
-    },
-    Digit6: {
-      en: '6',
-      ru: '6',
-    },
-    Digit7: {
-      en: '7',
-      ru: '7',
-    },
-    Digit8: {
-      en: '8',
-      ru: '8',
-    },
-    Digit9: {
-      en: '9',
-      ru: '9',
-    },
-    Digit0: {
-      en: '0',
-      ru: '0',
-    },
-    Minus: {
-      en: '-',
-      ru: '-',
-    },
-    Equal: {
-      en: '=',
-      ru: '=',
-    },
-    Backspace: {
-      en: 'Backspace',
-      ru: 'Backspace',
-    },
-    Tab: {
-      en: 'Tab',
-      ru: 'Tab',
-    },
-    KeyQ: {
-      en: 'q',
-      ru: 'й',
-    },
-    KeyW: {
-      en: 'w',
-      ru: 'ц',
-    },
-    KeyE: {
-      en: 'e',
-      ru: 'у',
-    },
-    KeyR: {
-      en: 'r',
-      ru: 'к',
-    },
-    KeyT: {
-      en: 't',
-      ru: 'е',
-    },
-    KeyY: {
-      en: 'y',
-      ru: 'н',
-    },
-    KeyU: {
-      en: 'u',
-      ru: 'г',
-    },
-    KeyI: {
-      en: 'i',
-      ru: 'ш',
-    },
-    KeyO: {
-      en: 'o',
-      ru: 'щ',
-    },
-    KeyP: {
-      en: 'p',
-      ru: 'з',
-    },
-    BracketLeft: {
-      en: '[',
-      ru: 'x',
-    },
-    BracketRight: {
-      en: ']',
-      ru: 'ъ',
-    },
-    Backslash: {
-      en: '|',
-      ru: '"',
-    },
-    Delete: {
-      en: 'Del',
-      ru: 'Del',
-    },
-    CapsLock: {
-      en: 'CapsLock',
-      ru: 'CapsLock',
-    },
-    KeyA: {
-      en: 'a',
-      ru: 'ф',
-    },
-    KeyS: {
-      en: 's',
-      ru: 'ы',
-    },
-    KeyD: {
-      en: 'd',
-      ru: 'в',
-    },
-    KeyF: {
-      en: 'f',
-      ru: 'а',
-    },
-    KeyG: {
-      en: 'g',
-      ru: 'п',
-    },
-    KeyH: {
-      en: 'h',
-      ru: 'р',
-    },
-    KeyJ: {
-      en: 'j',
-      ru: 'о',
-    },
-    KeyK: {
-      en: 'k',
-      ru: 'л',
-    },
-    KeyL: {
-      en: 'l',
-      ru: 'д',
-    },
-    Semicolon: {
-      en: ';',
-      ru: 'ж',
-    },
-    Quote: {
-      en: "'",
-      ru: 'э',
-    },
-    Enter: {
-      en: 'Enter',
-      ru: 'Enter',
-    },
-    ShiftLeft: {
-      en: 'Shift',
-      ru: 'Shift',
-    },
-    KeyZ: {
-      en: 'z',
-      ru: 'я',
-    },
-    KeyX: {
-      en: 'x',
-      ru: 'ч',
-    },
-    KeyC: {
-      en: 'c',
-      ru: 'с',
-    },
-    KeyV: {
-      en: 'v',
-      ru: 'м',
-    },
-    KeyB: {
-      en: 'b',
-      ru: 'и',
-    },
-    KeyN: {
-      en: 'n',
-      ru: 'т',
-    },
-    KeyM: {
-      en: 'm',
-      ru: 'ь',
-    },
-    Comma: {
-      en: ',',
-      ru: 'б',
-    },
-    Period: {
-      en: '.',
-      ru: 'ю',
-    },
-    Slash: {
-      en: '/',
-      ru: '.',
-    },
-    ArrowUp: {
-      en: '\u2191',
-      ru: '\u2191',
-    },
-    ShiftRight: {
-      en: 'Shift',
-      ru: 'Shift',
-    },
-    ControlLeft: {
-      en: 'Ctrl',
-      ru: 'Ctrl',
-    },
-    'Switch-Lang': {
-      en: 'Rus',
-      ru: 'Eng',
-    },
-    AltLeft: {
-      en: 'Alt',
-      ru: 'Alt',
-    },
-    Space: {
-      en: 'Space',
-      ru: 'Space',
-    },
-    AltRight: {
-      en: 'Alt',
-      ru: 'Alt',
-    },
-    ArrowLeft: {
-      en: '\u2190',
-      ru: '\u2190',
-    },
-    ArrowDown: {
-      en: '\u2193',
-      ru: '\u2193',
-    },
-    ArrowRight: {
-      en: '\u2192',
-      ru: '\u2192',
-    },
-    ControlRight: {
-      en: 'Ctrl',
-      ru: 'Ctrl',
-    },
-  },
+  { code: 'Backquote', key: { en: '`', ru: 'ё' } },
+  { code: 'Digit1', key: { en: '1', ru: '1' } },
+  { code: 'Digit2', key: { en: '2', ru: '2' } },
+  { code: 'Digit3', key: { en: '3', ru: '3' } },
+  { code: 'Digit4', key: { en: '4', ru: '4' } },
+  { code: 'Digit5', key: { en: '5', ru: '5' } },
+  { code: 'Digit6', key: { en: '6', ru: '6' } },
+  { code: 'Digit7', key: { en: '7', ru: '7' } },
+  { code: 'Digit8', key: { en: '8', ru: '8' } },
+  { code: 'Digit9', key: { en: '9', ru: '9' } },
+  { code: 'Digit0', key: { en: '0', ru: '0' } },
+  { code: 'Minus', key: { en: '-', ru: '-' } },
+  { code: 'Equal', key: { en: '=', ru: '=' } },
+  { code: 'Backspace', key: { en: 'Backspace', ru: 'Backspace' } },
+  { code: 'Tab', key: { en: 'Tab', ru: 'Tab' } },
+  { code: 'KeyQ', key: { en: 'q', ru: 'й' } },
+  { code: 'KeyW', key: { en: 'w', ru: 'ц' } },
+  { code: 'KeyE', key: { en: 'e', ru: 'у' } },
+  { code: 'KeyR', key: { en: 'r', ru: 'к' } },
+  { code: 'KeyT', key: { en: 't', ru: 'е' } },
+  { code: 'KeyY', key: { en: 'y', ru: 'н' } },
+  { code: 'KeyU', key: { en: 'u', ru: 'г' } },
+  { code: 'KeyI', key: { en: 'i', ru: 'ш' } },
+  { code: 'KeyO', key: { en: 'o', ru: 'щ' } },
+  { code: 'KeyP', key: { en: 'p', ru: 'з' } },
+  { code: 'BracketLeft', key: { en: '[', ru: 'x' } },
+  { code: 'BracketRight', key: { en: ']', ru: 'ъ' } },
+  { code: 'Backslash', key: { en: '|', ru: '"' } },
+  { code: 'Delete', key: { en: 'Del', ru: 'Del' } },
+  { code: 'CapsLock', key: { en: 'CapsLock', ru: 'CapsLock' } },
+  { code: 'KeyA', key: { en: 'a', ru: 'ф' } },
+  { code: 'KeyS', key: { en: 's', ru: 'ы' } },
+  { code: 'KeyD', key: { en: 'd', ru: 'в' } },
+  { code: 'KeyF', key: { en: 'f', ru: 'а' } },
+  { code: 'KeyG', key: { en: 'g', ru: 'п' } },
+  { code: 'KeyH', key: { en: 'h', ru: 'р' } },
+  { code: 'KeyJ', key: { en: 'j', ru: 'о' } },
+  { code: 'KeyK', key: { en: 'k', ru: 'л' } },
+  { code: 'KeyL', key: { en: 'l', ru: 'д' } },
+  { code: 'Semicolon', key: { en: ';', ru: 'ж' } },
+  { code: 'Quote', key: { en: "'", ru: 'э' } },
+  { code: 'Enter', key: { en: 'Enter', ru: 'Enter' } },
+  { code: 'ShiftLeft', key: { en: 'Shift', ru: 'Shift' } },
+  { code: 'KeyZ', key: { en: 'z', ru: 'я' } },
+  { code: 'KeyX', key: { en: 'x', ru: 'ч' } },
+  { code: 'KeyC', key: { en: 'c', ru: 'с' } },
+  { code: 'KeyV', key: { en: 'v', ru: 'м' } },
+  { code: 'KeyB', key: { en: 'b', ru: 'и' } },
+  { code: 'KeyN', key: { en: 'n', ru: 'т' } },
+  { code: 'KeyM', key: { en: 'm', ru: 'ь' } },
+  { code: 'Comma', key: { en: ',', ru: 'б' } },
+  { code: 'Period', key: { en: '.', ru: 'ю' } },
+  { code: 'Slash', key: { en: '/', ru: '.' } },
+  { code: 'ArrowUp', key: { en: '\u2191', ru: '\u2191' } },
+  { code: 'ShiftRight', key: { en: 'Shift', ru: 'Shift' } },
+  { code: 'ControlLeft', key: { en: 'Ctrl', ru: 'Ctrl' } },
+  { code: 'Switch-Lang', key: { en: 'Rus', ru: 'Eng' } },
+  { code: 'AltLeft', key: { en: 'Alt', ru: 'Alt' } },
+  { code: 'Space', key: { en: 'Space', ru: 'Space' } },
+  { code: 'AltRight', key: { en: 'Alt', ru: 'Alt' } },
+  { code: 'ArrowLeft', key: { en: '\u2190', ru: '\u2190' } },
+  { code: 'ArrowDown', key: { en: '\u2193', ru: '\u2193' } },
+  { code: 'ArrowRight', key: { en: '\u2192', ru: '\u2192' } },
+  { code: 'ControlRight', key: { en: 'Ctrl', ru: 'Ctrl' } },
 ];
 
 export default keyButtons;

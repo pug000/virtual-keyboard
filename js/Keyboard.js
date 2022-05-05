@@ -7,17 +7,16 @@ export default class Keyboard {
     this.textarea = textarea;
     this.keyButtons = keyButtons;
     this.buttons = '';
+    this.keys = [];
   }
 
   initKeyboard() {
-    this.keyButtons.forEach((elem) => {
-      Object.entries(elem).forEach((items) => {
-        const keysClass = items[0];
-        const keysEng = items[1].en;
-        const keysRus = items[1].ru;
-        this.buttons = new Buttons(keysClass, keysEng, keysRus, this.textarea);
-        this.keyboardBody.appendChild(this.buttons.initKeys());
-      });
+    this.keyButtons.forEach((itemButtons) => {
+      // const keysClass = items[0];
+      // const keysEng = items[1].en;
+      // const keysRus = items[1].ru;
+      this.buttons = new Buttons(this.keyboardBody, itemButtons, this.textarea);
+      this.keyboardBody.appendChild(this.buttons.initKeys());
     });
     return this.keyboardBody;
   }
