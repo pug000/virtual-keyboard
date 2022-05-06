@@ -6,6 +6,7 @@ export default class Keyboard {
     this.keyButtons = keyButtons;
     this.capsLock = false;
     this.keys = [];
+    this.lang = false;
   }
 
   initKeyboard() {
@@ -105,6 +106,22 @@ export default class Keyboard {
           this.keys[i].textContent = this.keys[i].textContent.toUpperCase();
         } else {
           this.keys[i].textContent = this.keys[i].textContent.toLowerCase();
+        }
+      }
+    }
+  }
+
+  switchLang() {
+    this.lang = !this.lang;
+
+    for (let i = 0; i < this.keys.length; i += 1) {
+      const rus = this.keyButtons[i].key.ru;
+      const eng = this.keyButtons[i].key.en;
+      if (this.keys[i].childElementCount === 0) {
+        if (this.lang) {
+          this.keys[i].textContent = rus;
+        } else {
+          this.keys[i].textContent = eng;
         }
       }
     }
