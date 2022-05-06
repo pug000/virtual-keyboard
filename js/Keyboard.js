@@ -4,7 +4,6 @@ export default class Keyboard {
     this.keyboardBody.className = 'body-keyboard';
     this.textarea = textarea;
     this.keyButtons = keyButtons;
-    this.buttons = '';
     this.capsLock = false;
     this.keys = [];
   }
@@ -12,6 +11,7 @@ export default class Keyboard {
   initKeyboard() {
     this.keyboardBody.appendChild(this.createKeys());
     this.keys = this.keyboardBody.children;
+    this.addFunctionalKey();
     return this.keyboardBody;
   }
 
@@ -21,199 +21,79 @@ export default class Keyboard {
       this.keyElement = document.createElement('div');
       this.keyElement.className = 'keyboard__key';
       this.keyElement.classList.add(`${elem.code}`);
+      this.keyElement.textContent = elem.key.en;
       fragment.appendChild(this.keyElement);
-      this.setKeyButtons(elem);
     });
 
     return fragment;
   }
 
-  setKeyButtons(elem) {
-    switch (elem.code) {
-      case 'Backspace':
-        this.setBackspace(elem);
-        break;
-
-      case 'Tab':
-        this.setTab(elem);
-        break;
-
-      case 'Delete':
-        this.setDelete(elem);
-        break;
-
-      case 'Enter':
-        this.setEnter(elem);
-        break;
-
-      case 'CapsLock':
-        this.setCapsLock(elem);
-        break;
-
-      case 'ControlLeft':
-        this.setControl(elem);
-        break;
-
-      case 'ControlRight':
-        this.setControl(elem);
-        break;
-
-      case 'AltLeft':
-        this.setAlt(elem);
-        break;
-
-      case 'AltRight':
-        this.setAlt(elem);
-        break;
-
-      case 'Space':
-        this.setSpace(elem);
-        break;
-
-      default:
-        this.setDefaultKeys(elem);
-
-        break;
-    }
+  addFunctionalKey() {
+    Array.from(this.keys).forEach((elem) => {
+      elem.addEventListener('mousedown', (e) => {
+        e.target.classList.add('active');
+      });
+      elem.addEventListener('mouseup', (e) => {
+        e.target.classList.remove('active');
+        if (elem.classList.contains('Backspace')) {
+          this.backspace();
+        } else if (elem.classList.contains('Tab')) {
+          this.tab();
+        } else if (elem.classList.contains('Delete')) {
+          this.delete();
+        } else if (elem.classList.contains('Enter')) {
+          this.enter();
+        } else if (elem.classList.contains('ControlLeft')
+          || elem.classList.contains('ControlRight')) {
+          this.doNothingWrite();
+        } else if (elem.classList.contains('ShiftLeft')
+          || elem.classList.contains('ShiftRight')) {
+          this.doNothingWrite();
+        } else if (elem.classList.contains('AltLeft')
+          || elem.classList.contains('AltRight')) {
+          this.doNothingWrite();
+        } else if (elem.classList.contains('CapsLock')) {
+          this.doNothingWrite();
+          this.toggleCapsLock();
+        } else if (elem.classList.contains('Space')) {
+          this.space();
+        } else if (elem.classList.contains('Switch-Lang')) {
+          this.switchLang();
+        } else if (this.capsLock) {
+          this.textarea.value += elem.textContent.toUpperCase();
+        } else {
+          this.textarea.value += elem.textContent.toLowerCase();
+        }
+      });
+    });
   }
 
-  setBackspace(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-      this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
-      this.textarea.textContent = this.textarea.value;
-    });
-    return this.keyElement;
+  doNothingWrite() {
+    this.textarea.value += '';
   }
 
-  setTab(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-      this.textarea.value += '  ';
-      this.textarea.textContent = this.textarea.value;
-    });
-
-    return this.keyElement;
+  backspace() {
+    this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
+    this.textarea.textContent = this.textarea.value;
   }
 
-  setDelete(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-      this.textarea.value = this.textarea.value.substring(1);
-      this.textarea.textContent = this.textarea.value;
-    });
-
-    return this.keyElement;
+  tab() {
+    this.textarea.value += '  ';
+    this.textarea.textContent = this.textarea.value;
   }
 
-  setEnter(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-      this.textarea.value += '\n';
-      this.textarea.textContent = this.textarea.value;
-    });
-
-    return this.keyElement;
+  delete() {
+    this.textarea.value = this.textarea.value.substring(1);
+    this.textarea.textContent = this.textarea.value;
   }
 
-  setCapsLock(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      this.toggleCapsLock();
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-    });
-
-    return this.keyElement;
+  enter() {
+    this.textarea.value += '\n';
+    this.textarea.textContent = this.textarea.value;
   }
 
-  setControl(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-    });
-
-    return this.keyElement;
-  }
-
-  setAlt(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-    });
-
-    return this.keyElement;
-  }
-
-  setSpace(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-      this.textarea.value += ' ';
-      this.textarea.textContent = this.textarea.value;
-    });
-
-    return this.keyElement;
-  }
-
-  setDefaultKeys(elem) {
-    this.keyElement.textContent = elem.key.en;
-
-    this.keyElement.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
-    });
-
-    this.keyElement.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
-      if (this.capsLock) {
-        this.textarea.value += elem.key.en.toUpperCase();
-      } else {
-        this.textarea.value += elem.key.en.toLowerCase();
-      }
-    });
+  space() {
+    this.textarea.value += ' ';
   }
 
   toggleCapsLock() {
