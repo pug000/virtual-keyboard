@@ -30,42 +30,28 @@ export default class Keyboard {
   }
 
   addFunctionalKey() {
-    Array.from(this.keys).forEach((elem) => {
-      elem.addEventListener('mousedown', (e) => {
-        e.target.classList.add('active');
-      });
-      elem.addEventListener('mouseup', (e) => {
-        e.target.classList.remove('active');
-        if (elem.classList.contains('Backspace')) {
-          this.backspace();
-        } else if (elem.classList.contains('Tab')) {
-          this.tab();
-        } else if (elem.classList.contains('Delete')) {
-          this.delete();
-        } else if (elem.classList.contains('Enter')) {
-          this.enter();
-        } else if (elem.classList.contains('ControlLeft')
-          || elem.classList.contains('ControlRight')) {
-          this.doNothingWrite();
-        } else if (elem.classList.contains('ShiftLeft')
-          || elem.classList.contains('ShiftRight')) {
-          this.doNothingWrite();
-        } else if (elem.classList.contains('AltLeft')
-          || elem.classList.contains('AltRight')) {
-          this.doNothingWrite();
-        } else if (elem.classList.contains('CapsLock')) {
-          this.doNothingWrite();
-          this.toggleCapsLock();
-        } else if (elem.classList.contains('Space')) {
-          this.space();
-        } else if (elem.classList.contains('Switch-Lang')) {
-          this.switchLang();
-        } else if (this.capsLock) {
-          this.textarea.value += elem.textContent.toUpperCase();
-        } else {
-          this.textarea.value += elem.textContent.toLowerCase();
-        }
-      });
+    Array.from(this.keys).forEach((item) => {
+      if (item.classList.contains('Backspace')) {
+        this.addBackspace(item);
+      } else if (item.classList.contains('Tab')) {
+        this.addTab(item);
+      } else if (item.classList.contains('Delete')) {
+        this.addDelete(item);
+      } else if (item.classList.contains('Enter')) {
+        this.addEnter(item);
+      } else if (item.classList.contains('CapsLock')) {
+        this.addCapsLock(item);
+      } else if (item.classList.contains('ControlLeft')
+        || item.classList.contains('ControlRight')) {
+        this.addControl(item);
+      } else if (item.classList.contains('AltLeft')
+        || item.classList.contains('AltRight')) {
+        this.addAlt(item);
+      } else if (item.classList.contains('Switch-Lang')) {
+        this.addSwitchLang(item);
+      } else {
+        this.defaultKeys(item);
+      }
     });
   }
 
@@ -73,28 +59,107 @@ export default class Keyboard {
     this.textarea.value += '';
   }
 
-  backspace() {
-    this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
-    this.textarea.textContent = this.textarea.value;
+  addBackspace(backspace) {
+    backspace.addEventListener('mousedown', () => {
+      backspace.classList.add('active');
+    });
+    backspace.addEventListener('mouseup', () => {
+      backspace.classList.remove('active');
+      this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
+      this.textarea.textContent = this.textarea.value;
+    });
   }
 
-  tab() {
-    this.textarea.value += '  ';
-    this.textarea.textContent = this.textarea.value;
+  addTab(tab) {
+    tab.addEventListener('mousedown', () => {
+      tab.classList.add('active');
+    });
+    tab.addEventListener('mouseup', () => {
+      tab.classList.remove('active');
+      this.textarea.value += '  ';
+      this.textarea.textContent = this.textarea.value;
+    });
   }
 
-  delete() {
-    this.textarea.value = this.textarea.value.substring(1);
-    this.textarea.textContent = this.textarea.value;
+  addDelete(del) {
+    del.addEventListener('mousedown', () => {
+      del.classList.add('active');
+    });
+    del.addEventListener('mouseup', () => {
+      del.classList.remove('active');
+      this.textarea.value = this.textarea.value.substring(1);
+      this.textarea.textContent = this.textarea.value;
+    });
   }
 
-  enter() {
-    this.textarea.value += '\n';
-    this.textarea.textContent = this.textarea.value;
+  addEnter(enter) {
+    enter.addEventListener('mousedown', () => {
+      enter.classList.add('active');
+    });
+    enter.addEventListener('mouseup', () => {
+      enter.classList.remove('active');
+      this.textarea.value += '\n';
+      this.textarea.textContent = this.textarea.value;
+    });
   }
 
-  space() {
-    this.textarea.value += ' ';
+  addSpace(space) {
+    space.addEventListener('mousedown', () => {
+      space.classList.add('active');
+    });
+    space.addEventListener('mouseup', () => {
+      space.classList.remove('active');
+      this.textarea.value += ' ';
+    });
+  }
+
+  addCapsLock(capslock) {
+    capslock.addEventListener('click', () => {
+      capslock.classList.toggle('active');
+      this.doNothingWrite();
+      this.toggleCapsLock();
+    });
+  }
+
+  addControl(ctrl) {
+    ctrl.addEventListener('mousedown', () => {
+      ctrl.classList.add('active');
+    });
+    ctrl.addEventListener('mouseup', () => {
+      ctrl.classList.remove('active');
+      this.doNothingWrite();
+    });
+  }
+
+  addAlt(alt) {
+    alt.addEventListener('mousedown', () => {
+      alt.classList.add('active');
+    });
+    alt.addEventListener('mouseup', () => {
+      alt.classList.remove('active');
+      this.doNothingWrite();
+    });
+  }
+
+  addSwitchLang(lang) {
+    lang.addEventListener('mousedown', () => {
+      lang.classList.add('active');
+    });
+    lang.addEventListener('mouseup', () => {
+      lang.classList.remove('active');
+      this.switchLang();
+      this.doNothingWrite();
+    });
+  }
+
+  defaultKeys(keys) {
+    keys.addEventListener('mousedown', (e) => {
+      e.target.classList.add('active');
+    });
+    keys.addEventListener('mouseup', (e) => {
+      e.target.classList.remove('active');
+      this.textarea.value += keys.textContent;
+    });
   }
 
   toggleCapsLock() {
