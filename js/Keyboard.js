@@ -72,6 +72,7 @@ export default class Keyboard {
         e.preventDefault();
         this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
         this.textarea.textContent = this.textarea.value;
+        this.animation(backspace);
       }
     });
 
@@ -84,10 +85,12 @@ export default class Keyboard {
     backspace.addEventListener('mousedown', () => {
       backspace.classList.add('active');
     });
+
     backspace.addEventListener('mouseup', () => {
       backspace.classList.remove('active');
       this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
       this.textarea.textContent = this.textarea.value;
+      this.animation(backspace);
     });
   }
 
@@ -98,6 +101,7 @@ export default class Keyboard {
         e.preventDefault();
         this.textarea.value += '  ';
         this.textarea.textContent = this.textarea.value;
+        this.animation(tab);
       }
     });
 
@@ -115,6 +119,7 @@ export default class Keyboard {
       tab.classList.remove('active');
       this.textarea.value += '  ';
       this.textarea.textContent = this.textarea.value;
+      this.animation(tab);
     });
   }
 
@@ -125,6 +130,7 @@ export default class Keyboard {
         e.preventDefault();
         this.textarea.value = this.textarea.value.substring(1);
         this.textarea.textContent = this.textarea.value;
+        this.animation(del);
       }
     });
 
@@ -137,10 +143,12 @@ export default class Keyboard {
     del.addEventListener('mousedown', () => {
       del.classList.add('active');
     });
+
     del.addEventListener('mouseup', () => {
       del.classList.remove('active');
       this.textarea.value = this.textarea.value.substring(1);
       this.textarea.textContent = this.textarea.value;
+      this.animation(del);
     });
   }
 
@@ -151,6 +159,7 @@ export default class Keyboard {
         e.preventDefault();
         this.textarea.value += '\n';
         this.textarea.textContent = this.textarea.value;
+        this.animation(enter);
       }
     });
 
@@ -163,10 +172,12 @@ export default class Keyboard {
     enter.addEventListener('mousedown', () => {
       enter.classList.add('active');
     });
+
     enter.addEventListener('mouseup', () => {
       enter.classList.remove('active');
       this.textarea.value += '\n';
       this.textarea.textContent = this.textarea.value;
+      this.animation(enter);
     });
   }
 
@@ -176,6 +187,7 @@ export default class Keyboard {
         space.classList.add('active');
         e.preventDefault();
         this.textarea.value += ' ';
+        this.animation(space);
       }
     });
 
@@ -188,9 +200,11 @@ export default class Keyboard {
     space.addEventListener('mousedown', () => {
       space.classList.add('active');
     });
+
     space.addEventListener('mouseup', () => {
       space.classList.remove('active');
       this.textarea.value += ' ';
+      this.animation(space);
     });
   }
 
@@ -201,6 +215,7 @@ export default class Keyboard {
         e.preventDefault();
         this.doNothingWrite();
         this.toggleCapsLock();
+        this.animation(capslock);
       }
     });
 
@@ -208,6 +223,7 @@ export default class Keyboard {
       capslock.classList.toggle('active');
       this.doNothingWrite();
       this.toggleCapsLock();
+      this.animation(capslock);
     });
   }
 
@@ -217,6 +233,7 @@ export default class Keyboard {
         ctrl.classList.add('active');
         e.preventDefault();
         this.doNothingWrite();
+        this.animation(ctrl);
       }
     });
 
@@ -229,6 +246,7 @@ export default class Keyboard {
     ctrl.addEventListener('mousedown', () => {
       ctrl.classList.add('active');
     });
+
     ctrl.addEventListener('mouseup', () => {
       ctrl.classList.remove('active');
       this.doNothingWrite();
@@ -241,6 +259,7 @@ export default class Keyboard {
         alt.classList.add('active');
         e.preventDefault();
         this.doNothingWrite();
+        this.animation(alt);
       }
     });
 
@@ -253,9 +272,11 @@ export default class Keyboard {
     alt.addEventListener('mousedown', () => {
       alt.classList.add('active');
     });
+
     alt.addEventListener('mouseup', () => {
       alt.classList.remove('active');
       this.doNothingWrite();
+      this.animation(alt);
     });
   }
 
@@ -263,10 +284,12 @@ export default class Keyboard {
     lang.addEventListener('mousedown', () => {
       lang.classList.add('active');
     });
+
     lang.addEventListener('mouseup', () => {
       lang.classList.remove('active');
       this.switchLang();
       this.doNothingWrite();
+      this.animation(lang);
     });
   }
 
@@ -277,6 +300,7 @@ export default class Keyboard {
         e.preventDefault();
         this.doNothingWrite();
         this.toggleShift();
+        this.animation(shift);
       }
     });
 
@@ -292,9 +316,11 @@ export default class Keyboard {
       this.toggleShift();
       this.doNothingWrite();
     });
+
     shift.addEventListener('mouseup', () => {
       shift.classList.remove('active');
       this.toggleShift();
+      this.animation(shift);
     });
   }
 
@@ -303,6 +329,7 @@ export default class Keyboard {
       if (keys.classList.contains(`${e.code}`)) {
         keys.classList.add('active');
         this.textarea.value += keys.textContent;
+        this.animation(keys);
       }
     });
 
@@ -313,9 +340,11 @@ export default class Keyboard {
     keys.addEventListener('mousedown', () => {
       keys.classList.add('active');
     });
+
     keys.addEventListener('mouseup', () => {
       keys.classList.remove('active');
       this.textarea.value += keys.textContent;
+      this.animation(keys);
     });
   }
 
@@ -367,5 +396,44 @@ export default class Keyboard {
         }
       }
     }
+  }
+
+  animation(element) {
+    const hueColor = Math.floor(Math.random() * (360 - 0 + 1)) + 0;
+    const color = `hsla(${hueColor}, 100%, 50%, 50%)`;
+    const textColor = `hsl(${hueColor}, 100%, 50%)`;
+    const textShadow = `0 0 0.80em ${color}, 0 0 1.60em ${color}, 0 0 4em ${color}`;
+    const boxShadow = `-3px 3px 4px ${color}, 3px -3px 4px ${color}, 3px 3px 4px ${color}, 
+    -3px -3px 4px ${color}, 0 0 10px ${color}`;
+
+    const keyIndex = Array.from(this.keys).indexOf(element);
+    const animatedKeysRight = Array.from(this.keys).slice(keyIndex);
+    const animatedKeysLeft = Array.from(this.keys).slice(0, keyIndex);
+
+    const transitionHandler = (e) => {
+      e.target.style.boxShadow = 'none';
+      e.target.style.color = null;
+      e.target.style.textShadow = 'none';
+      e.target.removeEventListener('transitionend', transitionHandler);
+    };
+
+    animatedKeysRight.forEach((elem, i) => {
+      setTimeout(() => {
+        elem.addEventListener('transitionend', transitionHandler);
+        animatedKeysRight[i].style.boxShadow = boxShadow;
+        animatedKeysRight[i].style.color = textColor;
+        animatedKeysRight[i].style.textShadow = textShadow;
+      }, i * 35);
+    });
+
+    animatedKeysLeft.forEach((elem, j) => {
+      const i = animatedKeysLeft.length - j;
+      setTimeout(() => {
+        elem.addEventListener('transitionend', transitionHandler);
+        animatedKeysLeft[j].style.boxShadow = boxShadow;
+        animatedKeysLeft[j].style.color = textColor;
+        animatedKeysLeft[j].style.textShadow = textShadow;
+      }, i * 35);
+    });
   }
 }

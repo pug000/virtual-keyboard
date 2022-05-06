@@ -54,10 +54,11 @@ body {
     border-width: 3px 5px 9px 5px;
     border-color: #382e59 #2e2640;
     transition: all 50ms ease-out;
+    will-change: box-shadow, color, text-shadow;
     @extend %ff-Heebo-Regular;
 
     &:hover {
-      color: rgb(192, 13, 228);
+      color: hsla(325, 100%, 50%, 50%);
     }
 
     &.active {
