@@ -5,6 +5,7 @@ export default class Keyboard {
     this.textarea = textarea;
     this.keyButtons = keyButtons;
     this.capsLock = false;
+    this.shift = false;
     this.keys = [];
     this.lang = false;
   }
@@ -41,12 +42,17 @@ export default class Keyboard {
         this.addEnter(item);
       } else if (item.classList.contains('CapsLock')) {
         this.addCapsLock(item);
+      } else if (item.classList.contains('Space')) {
+        this.addSpace(item);
       } else if (item.classList.contains('ControlLeft')
         || item.classList.contains('ControlRight')) {
         this.addControl(item);
       } else if (item.classList.contains('AltLeft')
         || item.classList.contains('AltRight')) {
         this.addAlt(item);
+      } else if (item.classList.contains('ShiftLeft')
+        || item.classList.contains('ShiftRight')) {
+        this.addShift(item);
       } else if (item.classList.contains('Switch-Lang')) {
         this.addSwitchLang(item);
       } else {
@@ -152,12 +158,24 @@ export default class Keyboard {
     });
   }
 
-  defaultKeys(keys) {
-    keys.addEventListener('mousedown', (e) => {
-      e.target.classList.add('active');
+  addShift(shift) {
+    shift.addEventListener('mousedown', () => {
+      shift.classList.add('active');
+      this.toggleShift();
+      this.doNothingWrite();
     });
-    keys.addEventListener('mouseup', (e) => {
-      e.target.classList.remove('active');
+    shift.addEventListener('mouseup', () => {
+      shift.classList.remove('active');
+      this.toggleShift();
+    });
+  }
+
+  defaultKeys(keys) {
+    keys.addEventListener('mousedown', () => {
+      keys.classList.add('active');
+    });
+    keys.addEventListener('mouseup', () => {
+      keys.classList.remove('active');
       this.textarea.value += keys.textContent;
     });
   }
@@ -166,11 +184,30 @@ export default class Keyboard {
     this.capsLock = !this.capsLock;
 
     for (let i = 0; i < this.keys.length; i += 1) {
+      const { ru } = this.keyButtons[i].key;
+      const { en } = this.keyButtons[i].key;
       if (this.keys[i].childElementCount === 0) {
-        if (this.capsLock) {
-          this.keys[i].textContent = this.keys[i].textContent.toUpperCase();
+        if (this.lang) {
+          this.keys[i].textContent = this.capsLock ? ru.toUpperCase() : ru.toLowerCase();
         } else {
-          this.keys[i].textContent = this.keys[i].textContent.toLowerCase();
+          this.keys[i].textContent = this.capsLock ? en.toUpperCase() : en.toLowerCase();
+        }
+      }
+    }
+  }
+
+  toggleShift() {
+    this.shift = !this.shift;
+    for (let i = 0; i < this.keys.length; i += 1) {
+      const { ru } = this.keyButtons[i].key;
+      const { en } = this.keyButtons[i].key;
+      const shiftRu = this.keyButtons[i].shift.ru;
+      const shiftEn = this.keyButtons[i].shift.en;
+      if (this.keys[i].childElementCount === 0) {
+        if (this.lang) {
+          this.keys[i].textContent = this.shift ? shiftRu : ru;
+        } else {
+          this.keys[i].textContent = this.shift ? shiftEn : en;
         }
       }
     }
@@ -180,13 +217,13 @@ export default class Keyboard {
     this.lang = !this.lang;
 
     for (let i = 0; i < this.keys.length; i += 1) {
-      const rus = this.keyButtons[i].key.ru;
-      const eng = this.keyButtons[i].key.en;
+      const { ru } = this.keyButtons[i].key;
+      const { en } = this.keyButtons[i].key;
       if (this.keys[i].childElementCount === 0) {
         if (this.lang) {
-          this.keys[i].textContent = rus;
+          this.keys[i].textContent = this.capsLock ? ru.toUpperCase() : ru.toLowerCase();
         } else {
-          this.keys[i].textContent = eng;
+          this.keys[i].textContent = this.capsLock ? en.toUpperCase() : en.toLowerCase();
         }
       }
     }
