@@ -66,6 +66,21 @@ export default class Keyboard {
   }
 
   addBackspace(backspace) {
+    document.addEventListener('keydown', (e) => {
+      if (backspace.classList.contains(`${e.code}`)) {
+        backspace.classList.add('active');
+        e.preventDefault();
+        this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
+        this.textarea.textContent = this.textarea.value;
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (backspace.classList.contains(`${e.code}`)) {
+        backspace.classList.remove('active');
+      }
+    });
+
     backspace.addEventListener('mousedown', () => {
       backspace.classList.add('active');
     });
@@ -77,9 +92,25 @@ export default class Keyboard {
   }
 
   addTab(tab) {
+    document.addEventListener('keydown', (e) => {
+      if (tab.classList.contains(`${e.code}`)) {
+        tab.classList.add('active');
+        e.preventDefault();
+        this.textarea.value += '  ';
+        this.textarea.textContent = this.textarea.value;
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (tab.classList.contains(`${e.code}`)) {
+        tab.classList.remove('active');
+      }
+    });
+
     tab.addEventListener('mousedown', () => {
       tab.classList.add('active');
     });
+
     tab.addEventListener('mouseup', () => {
       tab.classList.remove('active');
       this.textarea.value += '  ';
@@ -88,6 +119,21 @@ export default class Keyboard {
   }
 
   addDelete(del) {
+    document.addEventListener('keydown', (e) => {
+      if (del.classList.contains(`${e.code}`)) {
+        del.classList.add('active');
+        e.preventDefault();
+        this.textarea.value = this.textarea.value.substring(1);
+        this.textarea.textContent = this.textarea.value;
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (del.classList.contains(`${e.code}`)) {
+        del.classList.remove('active');
+      }
+    });
+
     del.addEventListener('mousedown', () => {
       del.classList.add('active');
     });
@@ -99,6 +145,21 @@ export default class Keyboard {
   }
 
   addEnter(enter) {
+    document.addEventListener('keydown', (e) => {
+      if (enter.classList.contains(`${e.code}`)) {
+        enter.classList.add('active');
+        e.preventDefault();
+        this.textarea.value += '\n';
+        this.textarea.textContent = this.textarea.value;
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (enter.classList.contains(`${e.code}`)) {
+        enter.classList.remove('active');
+      }
+    });
+
     enter.addEventListener('mousedown', () => {
       enter.classList.add('active');
     });
@@ -110,6 +171,20 @@ export default class Keyboard {
   }
 
   addSpace(space) {
+    document.addEventListener('keydown', (e) => {
+      if (space.classList.contains(`${e.code}`)) {
+        space.classList.add('active');
+        e.preventDefault();
+        this.textarea.value += ' ';
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (space.classList.contains(`${e.code}`)) {
+        space.classList.remove('active');
+      }
+    });
+
     space.addEventListener('mousedown', () => {
       space.classList.add('active');
     });
@@ -120,6 +195,15 @@ export default class Keyboard {
   }
 
   addCapsLock(capslock) {
+    document.addEventListener('keydown', (e) => {
+      if (capslock.classList.contains(`${e.code}`)) {
+        capslock.classList.toggle('active');
+        e.preventDefault();
+        this.doNothingWrite();
+        this.toggleCapsLock();
+      }
+    });
+
     capslock.addEventListener('click', () => {
       capslock.classList.toggle('active');
       this.doNothingWrite();
@@ -128,6 +212,20 @@ export default class Keyboard {
   }
 
   addControl(ctrl) {
+    document.addEventListener('keydown', (e) => {
+      if (ctrl.classList.contains(`${e.code}`)) {
+        ctrl.classList.add('active');
+        e.preventDefault();
+        this.doNothingWrite();
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (ctrl.classList.contains(`${e.code}`)) {
+        ctrl.classList.remove('active');
+      }
+    });
+
     ctrl.addEventListener('mousedown', () => {
       ctrl.classList.add('active');
     });
@@ -138,6 +236,20 @@ export default class Keyboard {
   }
 
   addAlt(alt) {
+    document.addEventListener('keydown', (e) => {
+      if (alt.classList.contains(`${e.code}`)) {
+        alt.classList.add('active');
+        e.preventDefault();
+        this.doNothingWrite();
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (alt.classList.contains(`${e.code}`)) {
+        alt.classList.remove('active');
+      }
+    });
+
     alt.addEventListener('mousedown', () => {
       alt.classList.add('active');
     });
@@ -159,6 +271,22 @@ export default class Keyboard {
   }
 
   addShift(shift) {
+    document.addEventListener('keydown', (e) => {
+      if (shift.classList.contains(`${e.code}`)) {
+        shift.classList.add('active');
+        e.preventDefault();
+        this.doNothingWrite();
+        this.toggleShift();
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (shift.classList.contains(`${e.code}`)) {
+        shift.classList.remove('active');
+        this.toggleShift();
+      }
+    });
+
     shift.addEventListener('mousedown', () => {
       shift.classList.add('active');
       this.toggleShift();
@@ -171,6 +299,17 @@ export default class Keyboard {
   }
 
   defaultKeys(keys) {
+    document.addEventListener('keydown', (e) => {
+      if (keys.classList.contains(`${e.code}`)) {
+        keys.classList.add('active');
+        this.textarea.value += keys.textContent;
+      }
+    });
+
+    document.addEventListener('keyup', () => {
+      keys.classList.remove('active');
+    });
+
     keys.addEventListener('mousedown', () => {
       keys.classList.add('active');
     });
@@ -198,6 +337,7 @@ export default class Keyboard {
 
   toggleShift() {
     this.shift = !this.shift;
+
     for (let i = 0; i < this.keys.length; i += 1) {
       const { ru } = this.keyButtons[i].key;
       const { en } = this.keyButtons[i].key;
