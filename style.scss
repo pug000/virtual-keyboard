@@ -2,79 +2,100 @@
 @import "./common/fonts";
 @import "./common/extends";
 
-html {
-  background-color: blueviolet;
-}
-
 body {
   max-width: 1920px;
+  background-color: #000;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  .background {
+    position: fixed;
+    min-width: 100%;
+    min-height: 100%;
+
+    & > video {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 
   .container {
-    margin: 150px auto 150px;
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   textarea {
     width: 900px;
     height: 150px;
-    margin: 0 auto 50px;
+    margin: 150px auto 50px;
     overflow: auto;
+    color: mintcream;
+    background-color: transparent;
+    border-color: mintcream;
+    font-size: 20px;
+    @extend %ff-Heebo-Regular;
   }
 
   .keyboard__key {
-    min-width: 50px;
-    height: 50px;
-    background-color: mintcream;
+    min-width: 40px;
+    height: 40px;
+    color: #bbadd9;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    margin: 2px;
+    margin: 3px;
     cursor: pointer;
     user-select: none;
     font-size: 18px;
     border-radius: 3px;
-    transition: 0.2s;
+    border-style: solid;
+    border-width: 3px 5px 9px 5px;
+    border-color: #382e59 #2e2640;
+    transition: all 50ms ease-out;
     @extend %ff-Heebo-Regular;
 
     &:hover {
-      background-color: rgb(192, 13, 228);
+      color: rgb(192, 13, 228);
     }
 
     &.active {
-      border-radius: 30%;
-      background-color: rgb(192, 13, 228);
+      transform: perspective(1200px) translateZ(-90px);
     }
   }
 
   .body-keyboard {
-    background-color: aqua;
+    background-color: #6a3b7e;
     margin: 0 auto;
-    padding: 3px;
+    padding: 5px;
     user-select: none;
-    width: 835px;
+    width: 874px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 8px 10px 15px 10px;
+    border-color: #2e2640;
 
     .Tab {
-      width: 75px;
-      height: 50px;
+      width: 74px;
     }
     .CapsLock {
-      width: 100px;
+      width: 102px;
     }
     .Backspace {
-      width: 129px;
+      width: 130px;
     }
     .Enter {
-      width: 133px;
+      width: 124px;
     }
     .ShiftRight {
-      width: 104px;
+      width: 96px;
     }
     .ShiftLeft {
-      width: 129px;
+      width: 130px;
     }
     .Space {
-      width: 399px;
+      width: 410px;
     }
     .Delete,
     .Tab,
@@ -93,15 +114,13 @@ body {
     .ArrowLeft,
     .ArrowDown,
     .ArrowRight {
-      background-color: cornflowerblue;
       @extend %ff-Bebas-Neue-Regular;
 
       &:hover {
-        background-color: rgb(192, 13, 228);
+        color: rgb(192, 13, 228);
       }
       &.active {
-        border-radius: 7px;
-        background-color: rgb(192, 13, 228);
+        transform: perspective(1200px) translateZ(-90px);
       }
     }
   }
