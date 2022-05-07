@@ -8,7 +8,7 @@ export default class Keyboard {
     this.shift = false;
     this.keys = [];
     this.lang = false;
-    this.alt = false;
+    this.pressed = {};
   }
 
   initKeyboard() {
@@ -256,16 +256,21 @@ export default class Keyboard {
     document.addEventListener('keydown', (e) => {
       if (e.code === alt.dataset.key) {
         alt.classList.add('active');
+        if (e.repeat) {
+          return;
+        }
+        this.pressed[e.key] = true;
         e.preventDefault();
-        this.toggleAlt();
         this.doNothingWrite();
         this.animation(alt);
+        this.addShortCut();
       }
     });
 
     document.addEventListener('keyup', (e) => {
       if (e.code === alt.dataset.key) {
         alt.classList.remove('active');
+        delete this.pressed[e.key];
       }
     });
 
@@ -300,16 +305,19 @@ export default class Keyboard {
         if (e.repeat) {
           return;
         }
+        this.pressed[e.key] = true;
         e.preventDefault();
         this.doNothingWrite();
         this.toggleShift();
         this.animation(shift);
+        this.addShortCut();
       }
     });
 
     document.addEventListener('keyup', (e) => {
       if (e.code === shift.dataset.key) {
         shift.classList.remove('active');
+        delete this.pressed[e.key];
         this.toggleShift();
       }
     });
@@ -359,23 +367,30 @@ export default class Keyboard {
   toggleShift() {
     this.shift = !this.shift;
     this.changeRegister();
-    this.addShortCut();
-  }
-
-  toggleAlt() {
-    this.alt = !this.alt;
-    this.addShortCut();
   }
 
   addShortCut() {
-    if (this.shift && this.alt) {
+    if (this.pressed.Shift && this.pressed.Alt) {
       this.toggleLang();
     }
   }
 
   toggleLang() {
     this.lang = !this.lang;
-    this.switchLang();
+
+    for (let i = 0; i < this.keys.length; i += 1) {
+      const { ru } = this.keyButtons[i].key;
+      const { en } = this.keyButtons[i].key;
+      const { shift } = this.keyButtons[i];
+
+      if (this.lang) {
+        this.keys[i].textContent = this.capsLock ? ru.toUpperCase() : ru.toLowerCase();
+        this.keys[i].textContent = this.shift ? shift.ru : ru;
+      } else {
+        this.keys[i].textContent = this.capsLock ? en.toUpperCase() : en.toLowerCase();
+        this.keys[i].textContent = this.shift ? shift.en : en;
+      }
+    }
   }
 
   changeRegister() {
@@ -415,21 +430,6 @@ export default class Keyboard {
         } else if (this.capsLock && this.shift) {
           this.keys[i].textContent = shift.en.toLowerCase();
         }
-      }
-    }
-  }
-
-  switchLang() {
-    for (let i = 0; i < this.keys.length; i += 1) {
-      const { ru } = this.keyButtons[i].key;
-      const { en } = this.keyButtons[i].key;
-      const { shift } = this.keyButtons[i];
-      if (this.lang) {
-        this.keys[i].textContent = this.capsLock ? ru.toUpperCase() : ru.toLowerCase();
-        this.keys[i].textContent = this.shift ? shift.ru : ru;
-      } else {
-        this.keys[i].textContent = this.capsLock ? en.toUpperCase() : en.toLowerCase();
-        this.keys[i].textContent = this.shift ? shift.en : en;
       }
     }
   }
