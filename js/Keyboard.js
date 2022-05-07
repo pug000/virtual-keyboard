@@ -297,6 +297,9 @@ export default class Keyboard {
     document.addEventListener('keydown', (e) => {
       if (shift.classList.contains(`${e.code}`)) {
         shift.classList.add('active');
+        if (e.repeat) {
+          return;
+        }
         e.preventDefault();
         this.doNothingWrite();
         this.toggleShift();
@@ -350,33 +353,50 @@ export default class Keyboard {
 
   toggleCapsLock() {
     this.capsLock = !this.capsLock;
-
-    for (let i = 0; i < this.keys.length; i += 1) {
-      const { ru } = this.keyButtons[i].key;
-      const { en } = this.keyButtons[i].key;
-      if (this.keys[i].childElementCount === 0) {
-        if (this.lang) {
-          this.keys[i].textContent = this.capsLock ? ru.toUpperCase() : ru.toLowerCase();
-        } else {
-          this.keys[i].textContent = this.capsLock ? en.toUpperCase() : en.toLowerCase();
-        }
-      }
-    }
+    this.changeRegister();
   }
 
   toggleShift() {
     this.shift = !this.shift;
+    this.changeRegister();
+  }
 
+  changeRegister() {
     for (let i = 0; i < this.keys.length; i += 1) {
       const { ru } = this.keyButtons[i].key;
       const { en } = this.keyButtons[i].key;
-      const shiftRu = this.keyButtons[i].shift.ru;
-      const shiftEn = this.keyButtons[i].shift.en;
-      if (this.keys[i].childElementCount === 0) {
-        if (this.lang) {
-          this.keys[i].textContent = this.shift ? shiftRu : ru;
-        } else {
-          this.keys[i].textContent = this.shift ? shiftEn : en;
+      const { shift } = this.keyButtons[i];
+      if (this.lang) {
+        if (this.capsLock) {
+          this.keys[i].textContent = ru.toUpperCase();
+        } else if (!this.capsLock) {
+          this.keys[i].textContent = ru.toLowerCase();
+        }
+        if (this.shift) {
+          this.keys[i].textContent = shift.ru;
+        } else if (!this.shift) {
+          this.keys[i].textContent = ru;
+        }
+        if (this.capsLock && !this.shift) {
+          this.keys[i].textContent = ru.toUpperCase();
+        } else if (this.capsLock && this.shift) {
+          this.keys[i].textContent = shift.ru.toLowerCase();
+        }
+      } else if (!this.lang) {
+        if (this.capsLock) {
+          this.keys[i].textContent = en.toUpperCase();
+        } else if (!this.capsLock) {
+          this.keys[i].textContent = en.toLowerCase();
+        }
+        if (this.shift) {
+          this.keys[i].textContent = shift.en;
+        } else if (!this.shift) {
+          this.keys[i].textContent = en;
+        }
+        if (this.capsLock && !this.shift) {
+          this.keys[i].textContent = en.toUpperCase();
+        } else if (this.capsLock && this.shift) {
+          this.keys[i].textContent = shift.en.toLowerCase();
         }
       }
     }
