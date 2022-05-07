@@ -8,6 +8,7 @@ export default class Keyboard {
     this.shift = false;
     this.keys = [];
     this.lang = false;
+    this.alt = false;
   }
 
   initKeyboard() {
@@ -256,6 +257,7 @@ export default class Keyboard {
       if (e.code === alt.dataset.key) {
         alt.classList.add('active');
         e.preventDefault();
+        this.toggleAlt();
         this.doNothingWrite();
         this.animation(alt);
       }
@@ -285,7 +287,7 @@ export default class Keyboard {
 
     lang.addEventListener('mouseup', () => {
       lang.classList.remove('active');
-      this.switchLang();
+      this.toggleLang();
       this.doNothingWrite();
       this.animation(lang);
     });
@@ -357,6 +359,23 @@ export default class Keyboard {
   toggleShift() {
     this.shift = !this.shift;
     this.changeRegister();
+    this.addShortCut();
+  }
+
+  toggleAlt() {
+    this.alt = !this.alt;
+    this.addShortCut();
+  }
+
+  addShortCut() {
+    if (this.shift && this.alt) {
+      this.toggleLang();
+    }
+  }
+
+  toggleLang() {
+    this.lang = !this.lang;
+    this.switchLang();
   }
 
   changeRegister() {
@@ -401,17 +420,16 @@ export default class Keyboard {
   }
 
   switchLang() {
-    this.lang = !this.lang;
-
     for (let i = 0; i < this.keys.length; i += 1) {
       const { ru } = this.keyButtons[i].key;
       const { en } = this.keyButtons[i].key;
-      if (this.keys[i].childElementCount === 0) {
-        if (this.lang) {
-          this.keys[i].textContent = this.capsLock ? ru.toUpperCase() : ru.toLowerCase();
-        } else {
-          this.keys[i].textContent = this.capsLock ? en.toUpperCase() : en.toLowerCase();
-        }
+      const { shift } = this.keyButtons[i];
+      if (this.lang) {
+        this.keys[i].textContent = this.capsLock ? ru.toUpperCase() : ru.toLowerCase();
+        this.keys[i].textContent = this.shift ? shift.ru : ru;
+      } else {
+        this.keys[i].textContent = this.capsLock ? en.toUpperCase() : en.toLowerCase();
+        this.keys[i].textContent = this.shift ? shift.en : en;
       }
     }
   }
