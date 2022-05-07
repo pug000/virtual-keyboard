@@ -210,11 +210,20 @@ export default class Keyboard {
   addCapsLock(capslock) {
     document.addEventListener('keydown', (e) => {
       if (e.code === capslock.dataset.key) {
-        capslock.classList.toggle('active');
+        capslock.classList.add('active');
+        if (e.repeat) {
+          return;
+        }
         e.preventDefault();
         this.doNothingWrite();
         this.toggleCapsLock();
         this.animation(capslock);
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.code === capslock.dataset.key) {
+        capslock.classList.remove('active');
       }
     });
 
