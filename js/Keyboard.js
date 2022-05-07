@@ -22,7 +22,8 @@ export default class Keyboard {
     this.keyButtons.forEach((elem) => {
       this.keyElement = document.createElement('div');
       this.keyElement.className = 'keyboard__key';
-      this.keyElement.classList.add(`${elem.code}`);
+      this.keyElement.classList.add(`${elem.class}`);
+      this.keyElement.setAttribute('data-key', `${elem.code}`);
       this.keyElement.textContent = elem.key.en;
       fragment.appendChild(this.keyElement);
     });
@@ -44,14 +45,11 @@ export default class Keyboard {
         this.addCapsLock(item);
       } else if (item.classList.contains('Space')) {
         this.addSpace(item);
-      } else if (item.classList.contains('ControlLeft')
-        || item.classList.contains('ControlRight')) {
+      } else if (item.classList.contains('Control')) {
         this.addControl(item);
-      } else if (item.classList.contains('AltLeft')
-        || item.classList.contains('AltRight')) {
+      } else if (item.classList.contains('Alt')) {
         this.addAlt(item);
-      } else if (item.classList.contains('ShiftLeft')
-        || item.classList.contains('ShiftRight')) {
+      } else if (item.classList.contains('Shift')) {
         this.addShift(item);
       } else if (item.classList.contains('Switch-Lang')) {
         this.addSwitchLang(item);
@@ -67,7 +65,7 @@ export default class Keyboard {
 
   addBackspace(backspace) {
     document.addEventListener('keydown', (e) => {
-      if (backspace.classList.contains(`${e.code}`)) {
+      if (e.code === backspace.dataset.key) {
         backspace.classList.add('active');
         e.preventDefault();
         this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
@@ -77,7 +75,7 @@ export default class Keyboard {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (backspace.classList.contains(`${e.code}`)) {
+      if (e.code === backspace.dataset.key) {
         backspace.classList.remove('active');
       }
     });
@@ -96,7 +94,7 @@ export default class Keyboard {
 
   addTab(tab) {
     document.addEventListener('keydown', (e) => {
-      if (tab.classList.contains(`${e.code}`)) {
+      if (e.code === tab.dataset.key) {
         tab.classList.add('active');
         e.preventDefault();
         this.textarea.value += '  ';
@@ -106,7 +104,7 @@ export default class Keyboard {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (tab.classList.contains(`${e.code}`)) {
+      if (e.code === tab.dataset.key) {
         tab.classList.remove('active');
       }
     });
@@ -125,7 +123,7 @@ export default class Keyboard {
 
   addDelete(del) {
     document.addEventListener('keydown', (e) => {
-      if (del.classList.contains(`${e.code}`)) {
+      if (e.code === del.dataset.key) {
         del.classList.add('active');
         e.preventDefault();
         this.textarea.value = this.textarea.value.substring(1);
@@ -135,7 +133,7 @@ export default class Keyboard {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (del.classList.contains(`${e.code}`)) {
+      if (e.code === del.dataset.key) {
         del.classList.remove('active');
       }
     });
@@ -154,7 +152,7 @@ export default class Keyboard {
 
   addEnter(enter) {
     document.addEventListener('keydown', (e) => {
-      if (enter.classList.contains(`${e.code}`)) {
+      if (e.code === enter.dataset.key) {
         enter.classList.add('active');
         e.preventDefault();
         this.textarea.value += '\n';
@@ -164,7 +162,7 @@ export default class Keyboard {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (enter.classList.contains(`${e.code}`)) {
+      if (e.code === enter.dataset.key) {
         enter.classList.remove('active');
       }
     });
@@ -183,7 +181,7 @@ export default class Keyboard {
 
   addSpace(space) {
     document.addEventListener('keydown', (e) => {
-      if (space.classList.contains(`${e.code}`)) {
+      if (e.code === space.dataset.key) {
         space.classList.add('active');
         e.preventDefault();
         this.textarea.value += ' ';
@@ -192,7 +190,7 @@ export default class Keyboard {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (space.classList.contains(`${e.code}`)) {
+      if (e.code === space.dataset.key) {
         space.classList.remove('active');
       }
     });
@@ -210,7 +208,7 @@ export default class Keyboard {
 
   addCapsLock(capslock) {
     document.addEventListener('keydown', (e) => {
-      if (capslock.classList.contains(`${e.code}`)) {
+      if (e.code === capslock.dataset.key) {
         capslock.classList.toggle('active');
         e.preventDefault();
         this.doNothingWrite();
@@ -229,7 +227,7 @@ export default class Keyboard {
 
   addControl(ctrl) {
     document.addEventListener('keydown', (e) => {
-      if (ctrl.classList.contains(`${e.code}`)) {
+      if (e.code === ctrl.dataset.key) {
         ctrl.classList.add('active');
         e.preventDefault();
         this.doNothingWrite();
@@ -238,7 +236,7 @@ export default class Keyboard {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (ctrl.classList.contains(`${e.code}`)) {
+      if (e.code === ctrl.dataset.key) {
         ctrl.classList.remove('active');
       }
     });
@@ -255,7 +253,7 @@ export default class Keyboard {
 
   addAlt(alt) {
     document.addEventListener('keydown', (e) => {
-      if (alt.classList.contains(`${e.code}`)) {
+      if (e.code === alt.dataset.key) {
         alt.classList.add('active');
         e.preventDefault();
         this.doNothingWrite();
@@ -264,7 +262,7 @@ export default class Keyboard {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (alt.classList.contains(`${e.code}`)) {
+      if (e.code === alt.dataset.key) {
         alt.classList.remove('active');
       }
     });
@@ -295,7 +293,7 @@ export default class Keyboard {
 
   addShift(shift) {
     document.addEventListener('keydown', (e) => {
-      if (shift.classList.contains(`${e.code}`)) {
+      if (e.code === shift.dataset.key) {
         shift.classList.add('active');
         if (e.repeat) {
           return;
@@ -308,7 +306,7 @@ export default class Keyboard {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (shift.classList.contains(`${e.code}`)) {
+      if (e.code === shift.dataset.key) {
         shift.classList.remove('active');
         this.toggleShift();
       }
@@ -329,7 +327,7 @@ export default class Keyboard {
 
   defaultKeys(keys) {
     document.addEventListener('keydown', (e) => {
-      if (keys.classList.contains(`${e.code}`)) {
+      if (e.code === keys.dataset.key) {
         keys.classList.add('active');
         this.textarea.value += keys.textContent;
         this.animation(keys);

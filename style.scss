@@ -89,10 +89,10 @@ body {
     .Enter {
       width: 124px;
     }
-    .ShiftRight {
+    .Shift[data-key="ShiftRight"] {
       width: 96px;
     }
-    .ShiftLeft {
+    .Shift[data-key="ShiftLeft"] {
       width: 130px;
     }
     .Space {
@@ -103,13 +103,13 @@ body {
     .CapsLock,
     .Backspace,
     .Enter,
-    .ShiftRight,
-    .ShiftLeft,
+    .Shift,
+    .Shift,
     .Space,
-    .ControlLeft,
-    .ControlRight,
-    .AltLeft,
-    .AltRight,
+    .Control,
+    .Control,
+    .Alt,
+    .Alt,
     .Switch-Lang,
     .ArrowUp,
     .ArrowLeft,
