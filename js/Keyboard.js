@@ -386,20 +386,7 @@ export default class Keyboard {
 
   toggleLang() {
     this.lang = !this.lang;
-
-    for (let i = 0; i < this.keys.length; i += 1) {
-      const { ru } = this.keyButtons[i].key;
-      const { en } = this.keyButtons[i].key;
-      const { shift } = this.keyButtons[i];
-
-      if (this.lang) {
-        this.keys[i].textContent = this.capsLock ? ru.toUpperCase() : ru.toLowerCase();
-        this.keys[i].textContent = this.shift ? shift.ru : ru;
-      } else {
-        this.keys[i].textContent = this.capsLock ? en.toUpperCase() : en.toLowerCase();
-        this.keys[i].textContent = this.shift ? shift.en : en;
-      }
-    }
+    this.changeRegister();
   }
 
   changeRegister() {
@@ -407,6 +394,7 @@ export default class Keyboard {
       const { ru } = this.keyButtons[i].key;
       const { en } = this.keyButtons[i].key;
       const { shift } = this.keyButtons[i];
+
       if (this.lang) {
         if (this.capsLock) {
           this.keys[i].textContent = ru.toUpperCase();
