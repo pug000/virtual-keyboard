@@ -1,7 +1,7 @@
 import Container from './js/Container.js';
 import Keyboard from './js/Keyboard.js';
 import Textarea from './js/Textarea.js';
-import keyButtons from './keyButtons.js';
+import keyButtons from './js/keyButtons.js';
 import Background from './js/Background.js';
 
 const container = new Container();
