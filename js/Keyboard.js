@@ -1,5 +1,7 @@
+import * as localStorage from './localStorage.js';
+
 export default class Keyboard {
-  constructor(textarea, keyButtons) {
+  constructor(textarea, keyButtons, lang) {
     this.keyboardBody = document.createElement('div');
     this.keyboardBody.className = 'body-keyboard';
     this.textarea = textarea;
@@ -7,7 +9,7 @@ export default class Keyboard {
     this.capsLock = false;
     this.shift = false;
     this.keys = [];
-    this.lang = false;
+    this.lang = lang;
     this.pressed = {};
   }
 
@@ -21,11 +23,19 @@ export default class Keyboard {
   createKeys() {
     const fragment = document.createDocumentFragment();
     this.keyButtons.forEach((elem) => {
+      const { ru } = elem.key;
+      const { en } = elem.key;
       this.keyElement = document.createElement('div');
       this.keyElement.className = 'keyboard__key';
       this.keyElement.classList.add(`${elem.class}`);
       this.keyElement.setAttribute('data-key', `${elem.code}`);
-      this.keyElement.textContent = elem.key.en;
+
+      if (this.lang === 'en') {
+        this.keyElement.textContent = en;
+      } else {
+        this.keyElement.textContent = ru;
+      }
+
       fragment.appendChild(this.keyElement);
     });
 
@@ -385,7 +395,7 @@ export default class Keyboard {
   }
 
   toggleLang() {
-    this.lang = !this.lang;
+    this.lang = this.lang === 'en' ? 'ru' : 'en';
     this.changeRegister();
   }
 
@@ -395,7 +405,8 @@ export default class Keyboard {
       const { en } = this.keyButtons[i].key;
       const { shift } = this.keyButtons[i];
 
-      if (this.lang) {
+      if (this.lang === 'ru') {
+        localStorage.setLocalStorage(this.lang);
         if (this.capsLock) {
           this.keys[i].textContent = ru.toUpperCase();
         } else if (!this.capsLock) {
@@ -411,7 +422,8 @@ export default class Keyboard {
         } else if (this.capsLock && this.shift) {
           this.keys[i].textContent = shift.ru.toLowerCase();
         }
-      } else if (!this.lang) {
+      } else if (this.lang === 'en') {
+        localStorage.setLocalStorage(this.lang);
         if (this.capsLock) {
           this.keys[i].textContent = en.toUpperCase();
         } else if (!this.capsLock) {
