@@ -16,7 +16,8 @@ export default class Keyboard {
   initKeyboard() {
     this.keyboardBody.appendChild(this.createKeys());
     this.keys = this.keyboardBody.children;
-    this.addFunctionalKey();
+    this.handleClicks();
+    this.handleKey();
     return this.keyboardBody;
   }
 
@@ -42,340 +43,177 @@ export default class Keyboard {
     return fragment;
   }
 
-  addFunctionalKey() {
+  handleClicks() {
     Array.from(this.keys).forEach((item) => {
-      if (item.classList.contains('Backspace')) {
-        this.addBackspace(item);
-      } else if (item.classList.contains('Tab')) {
-        this.addTab(item);
-      } else if (item.classList.contains('Delete')) {
-        this.addDelete(item);
-      } else if (item.classList.contains('Enter')) {
-        this.addEnter(item);
-      } else if (item.classList.contains('CapsLock')) {
-        this.addCapsLock(item);
-      } else if (item.classList.contains('Space')) {
-        this.addSpace(item);
-      } else if (item.classList.contains('Control')) {
-        this.addControl(item);
-      } else if (item.classList.contains('Alt')) {
-        this.addAlt(item);
-      } else if (item.classList.contains('Shift')) {
-        this.addShift(item);
-      } else if (item.classList.contains('Switch-Lang')) {
-        this.addSwitchLang(item);
-      } else {
-        this.defaultKeys(item);
-      }
+      item.addEventListener('mousedown', (e) => {
+        e.target.classList.add('active');
+        if (item.classList.contains('Shift')) {
+          this.addShift(e);
+          this.pressed[e.key] = true;
+        } else if (item.classList.contains('Alt')) {
+          this.addAlt(e);
+          this.pressed[e.key] = true;
+        }
+      });
+
+      item.addEventListener('mouseup', (e) => {
+        e.target.classList.remove('active');
+        this.animation(item);
+        this.mouseEvents(e, item);
+      });
     });
+  }
+
+  mouseEvents(e, item) {
+    if (item.classList.contains('Backspace')) {
+      this.addBackspace();
+    } else if (item.classList.contains('Delete')) {
+      this.addDelete();
+    } else if (item.classList.contains('Tab')) {
+      this.addTab();
+    } else if (item.classList.contains('Enter')) {
+      this.addEnter();
+    } else if (item.classList.contains('CapsLock')) {
+      this.addCapsLock(e);
+    } else if (item.classList.contains('Control')) {
+      this.addControl();
+    } else if (item.classList.contains('Space')) {
+      this.addSpace();
+    } else if (item.classList.contains('Switch-Lang')) {
+      this.addSwitchLang();
+    } else if (item.classList.contains('Shift')) {
+      delete this.pressed[e.key];
+      this.addShift(e);
+    } else if (item.classList.contains('Alt')) {
+      delete this.pressed[e.key];
+      this.addAlt(e);
+    } else {
+      this.addDefaultKeys(item);
+    }
+  }
+
+  handleKey() {
+    Array.from(this.keys).forEach((item) => {
+      document.addEventListener('keydown', (e) => {
+        if (e.code === item.dataset.key) {
+          e.preventDefault();
+          item.classList.add('active');
+          this.keyEvents(e, item);
+          this.animation(item);
+        }
+      });
+
+      document.addEventListener('keyup', (e) => {
+        if (e.code === item.dataset.key) {
+          item.classList.remove('active');
+          if (e.code === 'ShiftLeft'
+            || e.code === 'ShiftRight') {
+            delete this.pressed[e.key];
+            this.addShift(e);
+          } else if (e.code === 'AltLeft'
+            || e.code === 'AltRight') {
+            delete this.pressed[e.key];
+          }
+        }
+      });
+    });
+  }
+
+  keyEvents(e, item) {
+    if (e.code === 'Backspace') {
+      this.addBackspace();
+    } else if (e.code === 'Delete') {
+      this.addDelete();
+    } else if (e.code === 'Tab') {
+      this.addTab();
+    } else if (e.code === 'Enter') {
+      this.addEnter();
+    } else if (e.code === 'CapsLock') {
+      this.addCapsLock(e);
+    } else if (e.code === 'ShiftLeft'
+      || e.code === 'ShiftRight') {
+      this.pressed[e.key] = true;
+      this.addShift(e);
+    } else if (e.code === 'ControlLeft'
+      || e.code === 'ControlRight') {
+      this.addControl();
+    } else if (e.code === 'AltLeft'
+      || e.code === 'AltRight') {
+      this.pressed[e.key] = true;
+      this.addAlt(e);
+    } else if (e.code === 'Space') {
+      this.addSpace();
+    } else {
+      this.addDefaultKeys(item);
+    }
+  }
+
+  addBackspace() {
+    this.doNothingWrite();
+    this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
+    this.textarea.textContent = this.textarea.value;
+  }
+
+  addDelete() {
+    this.doNothingWrite();
+    this.textarea.value = this.textarea.value.substring(1);
+    this.textarea.textContent = this.textarea.value;
+  }
+
+  addTab() {
+    this.textarea.value += '  ';
+    this.textarea.textContent = this.textarea.value;
+  }
+
+  addCapsLock(e) {
+    if (e.repeat) {
+      return;
+    }
+    this.doNothingWrite();
+    this.toggleCapsLock();
+  }
+
+  addEnter() {
+    this.textarea.value += '\n';
+    this.textarea.textContent = this.textarea.value;
+  }
+
+  addShift(e) {
+    if (e.repeat) {
+      return;
+    }
+    this.doNothingWrite();
+    this.toggleShift();
+    this.addShortCut();
+  }
+
+  addAlt(e) {
+    if (e.repeat) {
+      return;
+    }
+    this.doNothingWrite();
+    this.addShortCut();
+  }
+
+  addSwitchLang() {
+    this.doNothingWrite();
+    this.toggleLang();
+  }
+
+  addSpace() {
+    this.textarea.value += ' ';
+  }
+
+  addControl() {
+    this.doNothingWrite();
+  }
+
+  addDefaultKeys(key) {
+    this.textarea.value += key.textContent;
   }
 
   doNothingWrite() {
     this.textarea.value += '';
-  }
-
-  addBackspace(backspace) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === backspace.dataset.key) {
-        backspace.classList.add('active');
-        e.preventDefault();
-        this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
-        this.textarea.textContent = this.textarea.value;
-        this.animation(backspace);
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === backspace.dataset.key) {
-        backspace.classList.remove('active');
-      }
-    });
-
-    backspace.addEventListener('mousedown', () => {
-      backspace.classList.add('active');
-    });
-
-    backspace.addEventListener('mouseup', () => {
-      backspace.classList.remove('active');
-      this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
-      this.textarea.textContent = this.textarea.value;
-      this.animation(backspace);
-    });
-  }
-
-  addTab(tab) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === tab.dataset.key) {
-        tab.classList.add('active');
-        e.preventDefault();
-        this.textarea.value += '  ';
-        this.textarea.textContent = this.textarea.value;
-        this.animation(tab);
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === tab.dataset.key) {
-        tab.classList.remove('active');
-      }
-    });
-
-    tab.addEventListener('mousedown', () => {
-      tab.classList.add('active');
-    });
-
-    tab.addEventListener('mouseup', () => {
-      tab.classList.remove('active');
-      this.textarea.value += '  ';
-      this.textarea.textContent = this.textarea.value;
-      this.animation(tab);
-    });
-  }
-
-  addDelete(del) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === del.dataset.key) {
-        del.classList.add('active');
-        e.preventDefault();
-        this.textarea.value = this.textarea.value.substring(1);
-        this.textarea.textContent = this.textarea.value;
-        this.animation(del);
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === del.dataset.key) {
-        del.classList.remove('active');
-      }
-    });
-
-    del.addEventListener('mousedown', () => {
-      del.classList.add('active');
-    });
-
-    del.addEventListener('mouseup', () => {
-      del.classList.remove('active');
-      this.textarea.value = this.textarea.value.substring(1);
-      this.textarea.textContent = this.textarea.value;
-      this.animation(del);
-    });
-  }
-
-  addEnter(enter) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === enter.dataset.key) {
-        enter.classList.add('active');
-        e.preventDefault();
-        this.textarea.value += '\n';
-        this.textarea.textContent = this.textarea.value;
-        this.animation(enter);
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === enter.dataset.key) {
-        enter.classList.remove('active');
-      }
-    });
-
-    enter.addEventListener('mousedown', () => {
-      enter.classList.add('active');
-    });
-
-    enter.addEventListener('mouseup', () => {
-      enter.classList.remove('active');
-      this.textarea.value += '\n';
-      this.textarea.textContent = this.textarea.value;
-      this.animation(enter);
-    });
-  }
-
-  addSpace(space) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === space.dataset.key) {
-        space.classList.add('active');
-        e.preventDefault();
-        this.textarea.value += ' ';
-        this.animation(space);
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === space.dataset.key) {
-        space.classList.remove('active');
-      }
-    });
-
-    space.addEventListener('mousedown', () => {
-      space.classList.add('active');
-    });
-
-    space.addEventListener('mouseup', () => {
-      space.classList.remove('active');
-      this.textarea.value += ' ';
-      this.animation(space);
-    });
-  }
-
-  addCapsLock(capslock) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === capslock.dataset.key) {
-        capslock.classList.add('active');
-        if (e.repeat) {
-          return;
-        }
-        e.preventDefault();
-        this.doNothingWrite();
-        this.toggleCapsLock();
-        this.animation(capslock);
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === capslock.dataset.key) {
-        capslock.classList.remove('active');
-      }
-    });
-
-    capslock.addEventListener('click', () => {
-      capslock.classList.toggle('active');
-      this.doNothingWrite();
-      this.toggleCapsLock();
-      this.animation(capslock);
-    });
-  }
-
-  addControl(ctrl) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === ctrl.dataset.key) {
-        ctrl.classList.add('active');
-        e.preventDefault();
-        this.doNothingWrite();
-        this.animation(ctrl);
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === ctrl.dataset.key) {
-        ctrl.classList.remove('active');
-      }
-    });
-
-    ctrl.addEventListener('mousedown', () => {
-      ctrl.classList.add('active');
-    });
-
-    ctrl.addEventListener('mouseup', () => {
-      ctrl.classList.remove('active');
-      this.doNothingWrite();
-    });
-  }
-
-  addAlt(alt) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === alt.dataset.key) {
-        alt.classList.add('active');
-        if (e.repeat) {
-          return;
-        }
-        this.pressed[e.key] = true;
-        e.preventDefault();
-        this.doNothingWrite();
-        this.animation(alt);
-        this.addShortCut();
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === alt.dataset.key) {
-        alt.classList.remove('active');
-        delete this.pressed[e.key];
-      }
-    });
-
-    alt.addEventListener('mousedown', () => {
-      alt.classList.add('active');
-    });
-
-    alt.addEventListener('mouseup', () => {
-      alt.classList.remove('active');
-      this.doNothingWrite();
-      this.animation(alt);
-    });
-  }
-
-  addSwitchLang(lang) {
-    lang.addEventListener('mousedown', () => {
-      lang.classList.add('active');
-    });
-
-    lang.addEventListener('mouseup', () => {
-      lang.classList.remove('active');
-      this.toggleLang();
-      this.doNothingWrite();
-      this.animation(lang);
-    });
-  }
-
-  addShift(shift) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === shift.dataset.key) {
-        shift.classList.add('active');
-        if (e.repeat) {
-          return;
-        }
-        this.pressed[e.key] = true;
-        e.preventDefault();
-        this.doNothingWrite();
-        this.toggleShift();
-        this.animation(shift);
-        this.addShortCut();
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === shift.dataset.key) {
-        shift.classList.remove('active');
-        delete this.pressed[e.key];
-        this.toggleShift();
-      }
-    });
-
-    shift.addEventListener('mousedown', () => {
-      shift.classList.add('active');
-      this.toggleShift();
-      this.doNothingWrite();
-    });
-
-    shift.addEventListener('mouseup', () => {
-      shift.classList.remove('active');
-      this.toggleShift();
-      this.animation(shift);
-    });
-  }
-
-  defaultKeys(keys) {
-    document.addEventListener('keydown', (e) => {
-      if (e.code === keys.dataset.key) {
-        keys.classList.add('active');
-        this.textarea.value += keys.textContent;
-        this.animation(keys);
-      }
-    });
-
-    document.addEventListener('keyup', () => {
-      keys.classList.remove('active');
-    });
-
-    keys.addEventListener('mousedown', () => {
-      keys.classList.add('active');
-    });
-
-    keys.addEventListener('mouseup', () => {
-      keys.classList.remove('active');
-      this.textarea.value += keys.textContent;
-      this.animation(keys);
-    });
   }
 
   toggleCapsLock() {

@@ -4,6 +4,7 @@ export default class Textarea {
     this.textarea.setAttribute('id', 'textarea');
     this.textarea.setAttribute('spellcheck', 'false');
     this.textarea.placeholder = 'Клавиатура создана в операционной системе Windows. \nПереключение языка: Shift + Alt.';
+    this.textarea.value = 'sadad';
   }
 
   initTextarea() {
