@@ -123,6 +123,7 @@ export default class Keyboard {
           } else if (e.code === 'AltLeft'
             || e.code === 'AltRight') {
             delete this.pressed[e.key];
+            this.addAlt(e);
           }
         }
       });
@@ -246,7 +247,7 @@ export default class Keyboard {
   }
 
   addShortCut() {
-    if (this.pressed.Shift && this.pressed.Alt) {
+    if (this.pressed.Shift && (this.pressed.Alt || this.pressed.AltGraph)) {
       this.toggleLang();
     }
   }
