@@ -11,6 +11,7 @@ export default class Keyboard {
     this.keys = [];
     this.lang = lang;
     this.pressed = {};
+    this.currentPos = '';
   }
 
   initKeyboard() {
@@ -47,6 +48,7 @@ export default class Keyboard {
     Array.from(this.keys).forEach((item) => {
       item.addEventListener('mousedown', (e) => {
         e.target.classList.add('active');
+        this.textarea.focus();
         if (item.classList.contains('Shift')) {
           this.addShift(e);
           this.pressed[e.key] = true;
@@ -57,28 +59,31 @@ export default class Keyboard {
       });
 
       item.addEventListener('mouseup', (e) => {
+        this.currentPos = this.textarea.selectionStart;
+        const beforePos = this.textarea.value.slice(0, this.currentPos);
+        const afterPos = this.textarea.value.slice(this.currentPos);
         e.target.classList.remove('active');
         this.animation(item);
-        this.mouseEvents(e, item);
+        this.mouseEvents(e, item, beforePos, afterPos);
       });
     });
   }
 
-  mouseEvents(e, item) {
+  mouseEvents(e, item, beforePos, afterPos) {
     if (item.classList.contains('Backspace')) {
-      this.addBackspace();
+      this.addBackspace(beforePos, afterPos);
     } else if (item.classList.contains('Delete')) {
-      this.addDelete();
+      this.addDelete(beforePos, afterPos);
     } else if (item.classList.contains('Tab')) {
-      this.addTab();
+      this.addTab(beforePos, afterPos);
     } else if (item.classList.contains('Enter')) {
-      this.addEnter();
+      this.addEnter(beforePos, afterPos);
     } else if (item.classList.contains('CapsLock')) {
       this.addCapsLock(e);
     } else if (item.classList.contains('Control')) {
       this.addControl();
     } else if (item.classList.contains('Space')) {
-      this.addSpace();
+      this.addSpace(beforePos, afterPos);
     } else if (item.classList.contains('Switch-Lang')) {
       this.addSwitchLang();
     } else if (item.classList.contains('Shift')) {
@@ -88,17 +93,22 @@ export default class Keyboard {
       delete this.pressed[e.key];
       this.addAlt(e);
     } else {
-      this.addDefaultKeys(item);
+      this.addDefaultKeys(item, beforePos, afterPos);
     }
+    this.textarea.focus();
+    this.textarea.setSelectionRange(this.currentPos, this.currentPos);
   }
 
   handleKey() {
     Array.from(this.keys).forEach((item) => {
       document.addEventListener('keydown', (e) => {
+        this.currentPos = this.textarea.selectionStart;
+        const beforePos = this.textarea.value.slice(0, this.currentPos);
+        const afterPos = this.textarea.value.slice(this.currentPos);
         if (e.code === item.dataset.key) {
           e.preventDefault();
           item.classList.add('active');
-          this.keyEvents(e, item);
+          this.keyEvents(e, item, beforePos, afterPos);
           this.animation(item);
         }
       });
@@ -119,15 +129,15 @@ export default class Keyboard {
     });
   }
 
-  keyEvents(e, item) {
+  keyEvents(e, item, beforePos, afterPos) {
     if (e.code === 'Backspace') {
-      this.addBackspace();
+      this.addBackspace(beforePos, afterPos);
     } else if (e.code === 'Delete') {
-      this.addDelete();
+      this.addDelete(beforePos, afterPos);
     } else if (e.code === 'Tab') {
-      this.addTab();
+      this.addTab(beforePos, afterPos);
     } else if (e.code === 'Enter') {
-      this.addEnter();
+      this.addEnter(beforePos, afterPos);
     } else if (e.code === 'CapsLock') {
       this.addCapsLock(e);
     } else if (e.code === 'ShiftLeft'
@@ -142,27 +152,32 @@ export default class Keyboard {
       this.pressed[e.key] = true;
       this.addAlt(e);
     } else if (e.code === 'Space') {
-      this.addSpace();
+      this.addSpace(beforePos, afterPos);
     } else {
-      this.addDefaultKeys(item);
+      this.addDefaultKeys(item, beforePos, afterPos);
     }
+    this.textarea.focus();
+    this.textarea.setSelectionRange(this.currentPos, this.currentPos);
   }
 
-  addBackspace() {
+  addBackspace(beforePos, afterPos) {
+    if (this.currentPos === 0) {
+      return;
+    }
     this.doNothingWrite();
-    this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1);
-    this.textarea.textContent = this.textarea.value;
+    this.textarea.value = beforePos.slice(0, -1) + afterPos;
+    this.currentPos -= 1;
   }
 
-  addDelete() {
+  addDelete(beforePos, afterPos) {
     this.doNothingWrite();
-    this.textarea.value = this.textarea.value.substring(1);
-    this.textarea.textContent = this.textarea.value;
+    this.textarea.value = beforePos + afterPos.substring(1);
   }
 
-  addTab() {
-    this.textarea.value += '  ';
-    this.textarea.textContent = this.textarea.value;
+  addTab(beforePos, afterPos) {
+    const tabText = '\t';
+    this.textarea.value = beforePos + tabText + afterPos;
+    this.currentPos += 1;
   }
 
   addCapsLock(e) {
@@ -173,9 +188,10 @@ export default class Keyboard {
     this.toggleCapsLock();
   }
 
-  addEnter() {
-    this.textarea.value += '\n';
-    this.textarea.textContent = this.textarea.value;
+  addEnter(beforePos, afterPos) {
+    const enterText = '\n';
+    this.textarea.value = beforePos + enterText + afterPos;
+    this.currentPos += 1;
   }
 
   addShift(e) {
@@ -200,16 +216,19 @@ export default class Keyboard {
     this.toggleLang();
   }
 
-  addSpace() {
-    this.textarea.value += ' ';
+  addSpace(beforePos, afterPos) {
+    const spaceText = ' ';
+    this.textarea.value = beforePos + spaceText + afterPos;
+    this.currentPos += 1;
   }
 
   addControl() {
     this.doNothingWrite();
   }
 
-  addDefaultKeys(key) {
-    this.textarea.value += key.textContent;
+  addDefaultKeys(key, beforePos, afterPos) {
+    this.textarea.value = beforePos + key.textContent + afterPos;
+    this.currentPos += 1;
   }
 
   doNothingWrite() {
