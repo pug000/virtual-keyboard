@@ -2,155 +2,163 @@
 @import "./common/fonts";
 @import "./common/extends";
 
-body {
-  max-width: 1920px;
+html {
   background-color: #000;
-  background-position: center top;
-  background-repeat: no-repeat;
 
-  .background {
-    position: fixed;
-    min-width: 100%;
-    min-height: 100%;
+  body {
+    max-width: 1920px;
+    background-color: #000;
+    background-position: center top;
+    background-repeat: no-repeat;
 
-    & > video {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-
-  textarea {
-    width: 900px;
-    height: 150px;
-    margin: 150px auto 50px;
-    overflow: auto;
-    color: hsla(317, 100%, 54%, 54%);
-    background: rgba(0, 0, 0, 0.6);
-    border: hsla(317, 100%, 54%, 54%) 2px solid;
-    text-shadow: 0 0 0.125em hsla(317, 100%, 54%, 54%), 0 0 0.45em hsla(317, 100%, 54%, 54%);
-    box-shadow: inset 0 0 0.5em 0 hsla(317, 100%, 54%, 54%), 0 0 0.5em 0 hsla(317, 100%, 54%, 54%);
-    border-radius: 5px;
-    font-size: 20px;
-    resize: none;
-    @extend %ff-Balsamiq-Sans;
-
-    &::-webkit-scrollbar {
-      width: 5px;
-      border-radius: 3px;
+      & > video {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
 
-    &::-webkit-scrollbar-thumb {
-      background-color: hsla(317, 100%, 54%, 54%);
-      box-shadow: inset 0 0 0.5em 0 hsla(317, 100%, 54%, 54%), 0 0 0.5em 0 hsla(317, 100%, 54%, 54%);
-      border-radius: 3px;
+    .container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
 
-    &::-webkit-scrollbar-track {
-      background-color: rgb(255, 255, 255);
-      border-radius: 3px;
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    &::placeholder {
+    textarea {
+      width: 900px;
+      height: 150px;
+      margin: 150px auto 50px;
+      overflow: auto;
       color: hsla(317, 100%, 54%, 54%);
+      background: rgba(0, 0, 0, 0.6);
+      border: hsla(317, 100%, 54%, 54%) 2px solid;
       text-shadow: 0 0 0.125em hsla(317, 100%, 54%, 54%), 0 0 0.45em hsla(317, 100%, 54%, 54%);
-    }
-  }
+      box-shadow: inset 0 0 0.5em 0 hsla(317, 100%, 54%, 54%), 0 0 0.5em 0 hsla(317, 100%, 54%, 54%);
+      border-radius: 5px;
+      font-size: 20px;
+      resize: none;
+      @extend %ff-Balsamiq-Sans;
 
-  .keyboard__key {
-    min-width: 40px;
-    height: 40px;
-    color: #bbadd9;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 3px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 18px;
-    border-radius: 3px;
-    border-style: solid;
-    border-width: 3px 5px 9px 5px;
-    border-color: #382e59 #2e2640;
-    transition: all 50ms ease-out;
-    will-change: box-shadow, color, text-shadow;
-    @extend %ff-Heebo-Regular;
+      &::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 3px;
+      }
 
-    &:hover {
-      color: hsla(325, 100%, 50%, 50%);
+      &::-webkit-scrollbar-thumb {
+        background-color: hsla(317, 100%, 54%, 54%);
+        box-shadow: inset 0 0 0.5em 0 hsla(317, 100%, 54%, 54%), 0 0 0.5em 0 hsla(317, 100%, 54%, 54%);
+        border-radius: 3px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: rgb(255, 255, 255);
+        border-radius: 3px;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: hsla(317, 100%, 54%, 54%);
+        text-shadow: 0 0 0.125em hsla(317, 100%, 54%, 54%), 0 0 0.45em hsla(317, 100%, 54%, 54%);
+      }
     }
 
-    &.active {
-      transform: perspective(1200px) translateZ(-90px);
-    }
-  }
-
-  .body-keyboard {
-    background-color: #6a3b7e;
-    margin: 0 auto;
-    padding: 5px;
-    user-select: none;
-    width: 874px;
-    border-radius: 5px;
-    border-style: solid;
-    border-width: 8px 10px 15px 10px;
-    border-color: #2e2640;
-
-    .Tab {
-      width: 74px;
-    }
-    .CapsLock {
-      width: 102px;
-    }
-    .Backspace {
-      width: 130px;
-    }
-    .Enter {
-      width: 124px;
-    }
-    .Shift[data-key="ShiftRight"] {
-      width: 96px;
-    }
-    .Shift[data-key="ShiftLeft"] {
-      width: 130px;
-    }
-    .Space {
-      width: 410px;
-    }
-    .Delete,
-    .Tab,
-    .CapsLock,
-    .Backspace,
-    .Enter,
-    .Shift,
-    .Shift,
-    .Space,
-    .Control,
-    .Control,
-    .Alt,
-    .Alt,
-    .Switch-Lang,
-    .ArrowUp,
-    .ArrowLeft,
-    .ArrowDown,
-    .ArrowRight {
-      @extend %ff-Bebas-Neue-Regular;
+    .keyboard__key {
+      min-width: 40px;
+      height: 40px;
+      color: #bbadd9;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      margin: 3px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 18px;
+      border-radius: 3px;
+      border-style: solid;
+      border-width: 3px 5px 9px 5px;
+      border-color: #382e59 #2e2640;
+      transition: all 50ms ease-out;
+      will-change: box-shadow, color, text-shadow;
+      @extend %ff-Heebo-Regular;
 
       &:hover {
-        color: rgb(192, 13, 228);
+        color: hsla(325, 100%, 50%, 50%);
       }
+
       &.active {
         transform: perspective(1200px) translateZ(-90px);
+      }
+    }
+
+    .body-keyboard {
+      background-color: #6a3b7e;
+      margin: 0 auto;
+      padding: 5px;
+      user-select: none;
+      width: 874px;
+      border-radius: 5px;
+      border-style: solid;
+      border-width: 8px 10px 15px 10px;
+      border-color: #2e2640;
+
+      .Tab {
+        width: 74px;
+      }
+      .CapsLock {
+        width: 102px;
+      }
+      .Backspace {
+        width: 130px;
+      }
+      .Enter {
+        width: 124px;
+      }
+      .Shift[data-key="ShiftRight"] {
+        width: 96px;
+      }
+      .Shift[data-key="ShiftLeft"] {
+        width: 130px;
+      }
+      .Space {
+        width: 410px;
+      }
+      .Delete,
+      .Tab,
+      .CapsLock,
+      .Backspace,
+      .Enter,
+      .Shift,
+      .Shift,
+      .Space,
+      .Control,
+      .Control,
+      .Alt,
+      .Alt,
+      .Switch-Lang,
+      .ArrowUp,
+      .ArrowLeft,
+      .ArrowDown,
+      .ArrowRight {
+        @extend %ff-Bebas-Neue-Regular;
+
+        &:hover {
+          color: rgb(192, 13, 228);
+        }
+        &.active {
+          transform: perspective(1200px) translateZ(-90px);
+        }
       }
     }
   }
