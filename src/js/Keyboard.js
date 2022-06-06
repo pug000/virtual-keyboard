@@ -1,4 +1,4 @@
-import * as localStorage from './localStorage.js';
+import * as localStorage from './localStorage';
 
 export default class Keyboard {
   constructor(textarea, keyButtons, lang) {

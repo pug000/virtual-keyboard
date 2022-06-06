@@ -1,8 +1,9 @@
-import Container from './js/Container.js';
-import Keyboard from './js/Keyboard.js';
-import Textarea from './js/Textarea.js';
-import keyButtons from './js/keyButtons.js';
-import Background from './js/Background.js';
+import Container from './js/Container';
+import Keyboard from './js/Keyboard';
+import Textarea from './js/Textarea';
+import keyButtons from './js/keyButtons';
+import Background from './js/Background';
+import './style.scss';
 
 window.onload = () => {
   const lang = JSON.parse(localStorage.getItem('language'));

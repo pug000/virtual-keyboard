@@ -1,6 +1,25 @@
-@import "./common/normalize";
-@import "./common/fonts";
-@import "./common/extends";
+@import "./styles/normalize";
+
+@font-face {
+  font-family: "BebasNeueRegular";
+  src: url("./assets/fonts/BebasNeue/BebasNeue-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "HeeboRegular";
+  src: url("./assets/fonts/Heebo/Heebo-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "BalsamiqSans";
+  src: url("./assets/fonts/BalsamiqSans/BalsamiqSans-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+}
 
 html {
   background-color: #000;
@@ -46,7 +65,7 @@ html {
       border-radius: 5px;
       font-size: 20px;
       resize: none;
-      @extend %ff-Balsamiq-Sans;
+      font-family: "BalsamiqSans";
 
       &::-webkit-scrollbar {
         width: 5px;
@@ -91,7 +110,7 @@ html {
       border-color: #382e59 #2e2640;
       transition: all 50ms ease-out;
       will-change: box-shadow, color, text-shadow;
-      @extend %ff-Heebo-Regular;
+      font-family: "HeeboRegular";
 
       &:hover {
         color: hsla(325, 100%, 50%, 50%);
@@ -151,7 +170,7 @@ html {
       .ArrowLeft,
       .ArrowDown,
       .ArrowRight {
-        @extend %ff-Bebas-Neue-Regular;
+        font-family: "BebasNeueRegular";
 
         &:hover {
           color: rgb(192, 13, 228);
