@@ -52,7 +52,7 @@ html {
       position: relative;
     }
 
-    textarea {
+    .textarea {
       width: 900px;
       height: 150px;
       margin: 150px auto 50px;
@@ -111,6 +111,10 @@ html {
       transition: all 50ms ease-out;
       will-change: box-shadow, color, text-shadow;
       font-family: "HeeboRegular";
+      animation-name: rainbow;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      animation-duration: 6s;
 
       &:hover {
         color: hsla(325, 100%, 50%, 50%);
@@ -144,10 +148,10 @@ html {
       .Enter {
         width: 124px;
       }
-      .Shift[data-key="ShiftRight"] {
+      .ShiftRight {
         width: 96px;
       }
-      .Shift[data-key="ShiftLeft"] {
+      .ShiftLeft {
         width: 130px;
       }
       .Space {
@@ -158,14 +162,14 @@ html {
       .CapsLock,
       .Backspace,
       .Enter,
-      .Shift,
-      .Shift,
+      .ShiftLeft,
+      .ShiftRight,
       .Space,
-      .Control,
-      .Control,
-      .Alt,
-      .Alt,
-      .Switch-Lang,
+      .ControlLeft,
+      .ControlRight,
+      .AltLeft,
+      .AltRight,
+      .SwitchLang,
       .ArrowUp,
       .ArrowLeft,
       .ArrowDown,
@@ -179,6 +183,79 @@ html {
           transform: perspective(1200px) translateZ(-90px);
         }
       }
+    }
+  }
+
+  @keyframes rainbow {
+    0% {
+      box-shadow: 0 3px 6px 2px rgba(255, 0, 0, 0.75);
+      text-shadow: 0 0 0.8em rgba(255, 0, 0, 0.75);
+      color: rgba(255, 0, 0, 0.75);
+    }
+    7.14% {
+      box-shadow: 0 3px 6px 2px rgba(255, 66, 0, 0.75);
+      text-shadow: 0 0 0.8em rgba(255, 66, 0, 0.75);
+      color: rgba(255, 66, 0, 0.75);
+    }
+    14.28% {
+      box-shadow: 0 3px 6px 2px rgba(255, 127, 0, 0.75);
+      text-shadow: 0 0 0.8em rgba(255, 127, 0, 0.75);
+      color: rgba(255, 127, 0, 0.75);
+    }
+    21.42% {
+      box-shadow: 0 3px 6px 2px rgba(255, 175, 0, 0.75);
+      text-shadow: 0 0 0.8em rgba(255, 175, 0, 0.75);
+      color: rgba(255, 175, 0, 0.75);
+    }
+    28.56% {
+      box-shadow: 0 3px 6px 2px rgba(255, 255, 0, 0.75);
+      text-shadow: 0 0 0.8em rgba(255, 255, 0, 0.75);
+      color: rgba(255, 255, 0, 0.75);
+    }
+    35.7% {
+      box-shadow: 0 3px 6px 2px rgba(127, 255, 0, 0.75);
+      text-shadow: 0 0 0.8em rgba(127, 255, 0, 0.75);
+      color: rgba(127, 255, 0, 0.75);
+    }
+    42.84% {
+      box-shadow: 0 3px 6px 2px rgba(0, 255, 0, 0.75);
+      text-shadow: 0 0 0.8em rgba(0, 255, 0, 0.75);
+      color: rgba(127, 255, 0, 0.75);
+    }
+    49.98% {
+      box-shadow: 0 3px 6px 2px rgba(0, 255, 127, 0.75);
+      text-shadow: 0 0 0.8em rgba(0, 255, 127, 0.75);
+      color: rgba(0, 255, 127, 0.75);
+    }
+    57.12% {
+      box-shadow: 0 3px 6px 2px rgba(0, 255, 255, 0.75);
+      text-shadow: 0 0 0.8em rgba(0, 255, 255, 0.75);
+      color: rgba(0, 255, 255, 0.75);
+    }
+    64.26% {
+      box-shadow: 0 3px 6px 2px rgba(0, 127, 255, 0.75);
+      text-shadow: 0 0 0.8em rgba(0, 127, 255, 0.75);
+      color: rgba(0, 127, 255, 0.75);
+    }
+    71.4% {
+      box-shadow: 0 3px 6px 2px rgba(0, 0, 255, 0.75);
+      text-shadow: 0 0 0.8em rgba(0, 0, 255, 0.75);
+      color: rgba(0, 0, 255, 0.75);
+    }
+    78.54% {
+      box-shadow: 0 3px 6px 2px rgba(127, 0, 255, 0.75);
+      text-shadow: 0 0 0.8em rgba(127, 0, 255, 0.75);
+      color: rgba(127, 0, 255, 0.75);
+    }
+    85.68% {
+      box-shadow: 0 3px 6px 2px rgba(255, 0, 255, 0.75);
+      text-shadow: 0 0 0.8em rgba(255, 0, 255, 0.75);
+      color: rgba(255, 0, 255, 0.75);
+    }
+    100% {
+      box-shadow: 0 3px 6px 2px rgba(255, 0, 127, 0.75);
+      text-shadow: 0 0 0.8em rgba(255, 0, 127, 0.75);
+      color: rgba(255, 0, 127, 0.75);
     }
   }
 }
