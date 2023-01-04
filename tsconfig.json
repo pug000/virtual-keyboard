@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "baseUrl": "src",
+    "paths": {
+      "*": ["*"]
+    }
+  },
+  "files": [
+    "src/index.ts"
+  ],
+  "include": [
+    "src",
+    "src/**/*.ts",
+    ".eslintrc.json",
+  ]
+}
